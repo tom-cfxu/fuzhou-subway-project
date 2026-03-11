@@ -1,3 +1,59 @@
-:host{
+:host {
+  ::ng-deep {
+    .main {
+      position: relative;
+      z-index: 10;
+      .imgs {
+        width: 100%;
+        height: calc(100vh - 64px;);
+        position: absolute;
+        z-index: 20;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        // background: rgba(255, 0, 0, 0.434);
+        .left {
+          width: 28%;
+          height: 100%;
+          background-image: url(../../../assets/tmp/home/left.png);
+          background-size: 100% 100%;
+          z-index: 21;
+        }
+        .center {
+          flex-grow: 1;
 
+          height: 100%;
+          position: relative;
+          &::after {
+            content: '';
+            width: 150%;
+            height: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-image: url(../../../assets/tmp/home/center.png);
+            background-size: 100%;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            z-index: 19;
+          }
+        }
+        .right {
+          width: 28%;
+          height: 100%;
+          background-image: url(../../../assets/tmp/home/right.png);
+          background-size: 100% 100%;
+          z-index: 21;
+        }
+      }
+      .data {
+        width: 100%;
+        height: calc(100vh - 64px;);
+        position: absolute;
+        z-index: 30;
+        // background: rgba(0, 28, 128, 0.537);
+      }
+    }
+  }
 }
