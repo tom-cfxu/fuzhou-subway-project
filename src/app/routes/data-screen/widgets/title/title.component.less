@@ -1,18 +1,20 @@
 :host {
-  width: 400px;
+  width: 100%;
   margin: 0;
   padding: 0;
   ::ng-deep {
     .container {
-      &.reverse {
-        justify-content: flex-start;
-        padding-right: 10px;
-      }
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
       align-items: center;
+      padding-left: 20px;
+      &.reverse {
+        padding-right: 10px;
+        padding-left: 0px;
+      }
       .title {
         color: rgba(255, 255, 255, 1);
+        white-space: wrap;
         font-size: 22px;
         font-family: PMZDBiaoTi-regular;
         margin-right: 5px;
@@ -42,7 +44,8 @@
         }
       }
       .shape {
-        width: 192px;
+        // flex-grow: 1;
+        width: 160px;
         height: 1px;
 
         background-color: rgba(255, 255, 255, 1);

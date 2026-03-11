@@ -17,6 +17,8 @@
           height: 100%;
           background-image: url(../../../assets/tmp/home/left.png);
           background-size: 100% 100%;
+          background-repeat: no-repeat;
+          background-position: left center;
           z-index: 21;
         }
         .center {
@@ -26,24 +28,26 @@
           position: relative;
           &::after {
             content: '';
-            width: 150%;
+            width: 130%;
             height: 100%;
             position: absolute;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
             background-image: url(../../../assets/tmp/home/center.png);
-            background-size: 100%;
+            background-size: 100% auto;
             background-position: 50% 50%;
             background-repeat: no-repeat;
             z-index: 19;
           }
         }
         .right {
-          width: 28%;
+          width: 25%;
           height: 100%;
           background-image: url(../../../assets/tmp/home/right.png);
           background-size: 100% 100%;
+          background-repeat: no-repeat;
+          background-position: right center;
           z-index: 21;
         }
       }
