@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+
+// ==========The following is the custom theme variable area==========
+// The theme paraments can be generated at https://ng-alain.github.io/ng-alain/
+// @primary-color: #f50;
+@font-face {
+  font-family: 'YSBiaoTiHei-regular';
+  src: url('../assets/tmp/fonts/YSBiaoTiHei-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'PingFangSC-Regular';
+  src: url('../assets/tmp/fonts/PingFangSC-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 庞门正道标题体 */
+@font-face {
+  font-family: 'PMZDBiaoTi-regular';
+  src: url('../assets/tmp/fonts/PMZDBiaoTi-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family:
+    'PingFangSC',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif !important;
+}
+
+// 覆盖 ng-zorro-antd 组件库字体（关键：ng-alain 基于 NG-ZORRO）
+:root {
+  --ant-font-family: 'PingFangSC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
