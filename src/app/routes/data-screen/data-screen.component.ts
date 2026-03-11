@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DataTitleComponent } from './widgets/title.component';
+import { DataTitleComponent } from './widgets/title/title.component';
 
 @Component({
   selector: 'app-data-screen',
