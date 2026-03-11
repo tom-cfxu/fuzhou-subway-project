@@ -1,14 +1,24 @@
 :host {
+  width: 400px;
+  margin: 0;
+  padding: 0;
   ::ng-deep {
     .container {
+      &.reverse {
+        justify-content: flex-start;
+        padding-right: 10px;
+      }
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
       .title {
         color: rgba(255, 255, 255, 1);
         font-size: 22px;
         font-family: PMZDBiaoTi-regular;
         margin-right: 5px;
+        &.reverse {
+          margin-left: 5px;
+        }
       }
 
       .circle {
