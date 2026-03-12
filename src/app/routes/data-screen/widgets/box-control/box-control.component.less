@@ -1,0 +1,72 @@
+:host {
+  overflow: visible;
+  width: 110%;
+  ::ng-deep {
+    .container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      .control {
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: PMZDBiaoTi-regular;
+        font-size: 16px;
+        line-height: 16px;
+        margin-right: 10px;
+        h1 {
+          color: #5087ec;
+          line-height: 32px;
+          margin: 0;
+          margin-left: 5px;
+          .b1 {
+            padding: 0;
+          }
+        }
+      }
+      .my-button {
+        padding: 0 10px;
+        font-size: 28px;
+        font-family: YSBiaoTiHei-regular;
+        color: rgba(88, 165, 92, 1);
+        border-radius: 15px;
+        background-color: rgba(39, 59, 94, 0.4);
+        border: 2px solid rgba(88, 165, 92, 1);
+        text-align: center;
+        margin-right: 20px;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          height: 20px;
+        }
+        &:hover {
+          border: 2px solid rgba(80, 135, 236, 1);
+          color: rgba(80, 135, 236, 1);
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          right: -10px;
+          top: -10px;
+          width: 30px;
+          height: 30px;
+          background-image: url(../../../../../assets/tmp/home/logo4.png);
+          background-size: 100%;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+    .button2 {
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 20%;
+      margin-top: 10px;
+    }
+  }
+}

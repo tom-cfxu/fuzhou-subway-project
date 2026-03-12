@@ -9,7 +9,7 @@ import { ChartEChartsEvent, ChartEChartsModule, ChartEChartsOption } from '@delo
   imports: [FormsModule, NzCheckboxModule, NzGridModule,ChartEChartsModule],
   template: `
     <div class="main">
-      <nz-checkbox-group [(ngModel)]="value" [style.width.%]="20" (ngModelChange)="change($event)">
+      <nz-checkbox-group [(ngModel)]="value" [style.width.%]="22" (ngModelChange)="change($event)">
         <nz-row>
           <nz-col nzSpan="24">
             <label nz-checkbox nzValue="车站空调系统">车站空调系统</label>
@@ -35,7 +35,7 @@ import { ChartEChartsEvent, ChartEChartsModule, ChartEChartsOption } from '@delo
         </nz-row>
       </nz-checkbox-group>
 
-      <div class="width-50">
+      <div [style.width.%]="55">
         <chart-echarts class="echart" height="100%" [option]="option" theme="dark" (events)="handleEvents($event)" />
       </div>
 
@@ -70,8 +70,8 @@ export class Box2EchartComponent {
         itemHeight: 8
       },
       grid: {
-        left: '0%',
-        right: '10%',
+        left: '1%',
+        right: '5%',
         bottom: '0%',
         containLabel: true
       },

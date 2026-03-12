@@ -27,12 +27,12 @@ export class Box3EchartComponent {
       grid:{
         top:0,
         left:'0',
-        right:0,
+        right:'0%',
         bottom:0,
       },
       legend: {
         orient: 'vertical',
-        right: 0,
+        right: '5%',
         align:'right',
         top: 'center',
         textStyle: {
