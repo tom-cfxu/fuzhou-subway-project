@@ -199,3 +199,31 @@ body {
     // display: none !important;
   }
 }
+
+.empty-modal {
+  // 弹窗整体容器
+  .ant-modal-content {
+    background-color: transparent !important; // 深色背景
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  // 弹窗头部（标题区域）
+  .ant-modal-header {
+    display: none;
+  }
+
+  // 标题文字
+  .ant-modal-title {
+    display: none;
+  }
+
+  // 隐藏内容区（无额外内容）
+  .ant-modal-body {
+  }
+
+  // 底部按钮区域
+  .ant-modal-footer {
+    display: none;
+  }
+}
