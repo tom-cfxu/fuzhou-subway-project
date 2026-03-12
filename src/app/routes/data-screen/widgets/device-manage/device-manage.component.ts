@@ -1,11 +1,48 @@
+/*
+ * @Author: tom-cfxu cfxu963852741@qq.com
+ * @Date: 2026-03-12 02:06:23
+ * @LastEditors: tom-cfxu cfxu963852741@qq.com
+ * @LastEditTime: 2026-03-12 22:42:12
+ * @FilePath: \fuzhou-subway-project\src\app\routes\data-screen\widgets\device-manage\device-manage.component.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import { Component } from '@angular/core';
+import { ManyiduComponent } from '../manyidu/manyidu.component';
+import { DeviceItemComponent } from '../device-item/device-item.component';
 
 @Component({
   selector: 'app-device-manage',
-  imports: [],
+  imports: [ManyiduComponent,DeviceItemComponent],
   template: `
-    照明和空调
+    <div class="container">
+      <div class="title">照明设备管控</div>
+      <app-manyidu [value]="4"/>
+      <app-device-item [data]="device_light" />
+      <div class="title">空调设备管控</div>
+      <app-manyidu [value]="4"/>
+      <app-device-item [data]="device_air" />
+    </div>
   `,
   styleUrl: './device-manage.component.less'
 })
-export class DeviceManageComponent {}
+export class DeviceManageComponent {
+
+device_light:any[]=[
+  {title:'出入口通道照明-设备1',status:1,stateOject:{1:'开启中',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'出入口通道照明-设备2',status:0,stateOject:{1:'开启中',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'站厅照明-设备1',status:1,stateOject:{1:'开启中',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'站厅照明-设备2',status:1,stateOject:{1:'开启中',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'站台照明-设备1',status:1,stateOject:{1:'开启中',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'站台照明-设备2',status:1,stateOject:{1:'开启中',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'售票区域照明设备',status:1,stateOject:{1:'开启中',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'检票区域照明设备',status:1,stateOject:{1:'开启中',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+];
+
+device_air:any[]=[
+  {title:'出入口通道空调-设备1',status:1,stateOject:{1:'低功率',2:'高功率'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'出入口通道空调-设备2',status:1,stateOject:{1:'低功率',2:'高功率'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'站厅空调-设备1',status:1,stateOject:{1:'正常',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+  {title:'站厅空调-设备2',status:1,stateOject:{1:'正常',0:'关闭中'},subtitle:'累计碳排放(kg)',value:'26.0'},
+];
+
+}

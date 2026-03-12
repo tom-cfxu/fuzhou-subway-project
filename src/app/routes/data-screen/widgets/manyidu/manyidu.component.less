@@ -1,0 +1,35 @@
+:host {
+  width: 100%;
+  padding: 10px 20px;
+  padding-left: 0;
+  // align-self: flex-end;
+  ::ng-deep {
+    .container1 {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      flex-direction: row;
+      align-items: center;
+      padding: 5px 10px;
+      border-radius: 11px;
+      border: 1px solid #5087ec4a;
+      background-color: #5087ec33;
+      .title {
+        font-family: YSBiaoTiHei-regular;
+        font-size: 24px;
+        color: rgba(88, 165, 92, 1);
+        line-height: 31px;
+        height: 31px;
+        // margin-right: 10px;
+      }
+      .smile {
+        width: 37px;
+        cursor: pointer;
+        opacity: 0.3;
+        &.good {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
