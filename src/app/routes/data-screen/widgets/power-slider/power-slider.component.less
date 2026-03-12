@@ -1,0 +1,91 @@
+:host {
+  ::ng-deep {
+    .title {
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    /* 滑块高度150px */
+    .ant-slider-vertical {
+      height: 100px !important;
+    }
+    /* 白色主轨道 */
+    .ant-slider-rail {
+      background-color: #9aa3a7;
+      width: 4px;
+      border-radius: 0;
+      height: 120px;
+      top: 50%;
+      transform: translateY(-50%);
+      &:hover {
+        background-color: #9aa3a7;
+      }
+    }
+    /* 隐藏进度条，只保留白色轨道 */
+    .ant-slider-track {
+      background-color: transparent;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    /* 自定义滑块手柄：浅灰色矩形 + 三条横线 */
+    .ant-slider-handle {
+      width: 30px;
+      height: 12px;
+      border: none;
+      background: #9aa3a7;
+      border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      margin-left: -13px;
+    }
+    .ant-slider-handle::after {
+      content: '☰';
+      position: absolute;
+      color: #6e7072;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8px;
+      font-weight: bolder;
+      text-align: center;
+    }
+
+    .ant-slider-mark {
+      left: 20px;
+    }
+    .ant-slider-step {
+      display: none !important;
+    }
+    .ant-slider-rail:hover,
+    .ant-slider-track:hover,
+    .ant-slider:hover .ant-slider-rail,
+    .ant-slider:hover .ant-slider-track {
+      background-color: #9aa3a7 !important;
+    }
+    .ant-slider-handle:hover {
+      background: #9aa3a7 !important;
+      // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    }
+    .ant-slider-handle:focus,
+    .ant-slider-handle:focus-visible {
+      // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+      outline: none !important;
+    }
+    .ant-slider-mark-text::after {
+      content: '-';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: -18px;
+      color: #9aa3a7;
+      font-size: 24px;
+      font-weight: bolder;
+    }
+    // .ant-slider-mark .ant-slider-mark-step {
+    //   width: 20px;
+    //   height: 2px;
+    //   background-color: #ffffff;
+    // }
+  }
+}
