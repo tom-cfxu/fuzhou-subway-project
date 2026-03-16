@@ -46,6 +46,36 @@ import { ChartEChartsEvent, ChartEChartsModule, ChartEChartsOption } from '@delo
 export class Box2EchartComponent {
   value:any[]=['车站空调系统','照明系统'];
 
+
+  data:any={
+    "车站空调系统":{
+      data:[],
+      color:'#4a9eff',
+      colorStops: [
+        { offset: 0, color: 'rgba(74, 158, 255, 0.3)' },
+        { offset: 1, color: 'rgba(74, 158, 255, 0)' }
+      ]
+    },
+    "站台门系统":{
+
+    },
+    "环控系统":{
+
+    },
+    "照明系统":{
+
+    },
+    "变电系统":{
+
+    },
+    "电梯系统":{
+
+    },
+    "AFC系统":{
+
+    },
+  }
+
   option:ChartEChartsOption={
     textStyle:{
       fontFamily:"PingFangSC-Regular",
@@ -146,6 +176,7 @@ export class Box2EchartComponent {
 
   change(value: string[]): void{
     console.log(value);
+
   }
 
 

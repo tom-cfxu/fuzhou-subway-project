@@ -34,7 +34,7 @@ export class EvaluationResultsComponent implements OnInit {
     }
   }
   readonly modalRef = inject(NzModalRef);
-  
+
   medalObject:any={
     1:{
       result:'节能大师',

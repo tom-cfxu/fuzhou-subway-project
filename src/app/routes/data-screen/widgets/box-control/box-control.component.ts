@@ -25,9 +25,7 @@ import { EvaluationResultsComponent } from '../evaluation-results/evaluation-res
         <img src="../../../../../assets/tmp/home/logo5.png" />
         车站碳排放评估</div
       >
-    </div>
-    <div class="button2">
-      <button nz-button nzType="primary">重置</button>
+      <button nz-button nzType="primary" (click)="reset()">重置</button>
     </div>
   `
 })
@@ -74,6 +72,11 @@ export class BoxCeterControlComponent {
     });
   }
 
+  reset(){
+    this.level=0;
+    this.mode=1;
+    this.cdr.detectChanges();
+  }
   levelChange(){
     this.level = Number(!Boolean(this.level));
     this.cdr.detectChanges();
