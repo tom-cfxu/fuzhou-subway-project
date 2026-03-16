@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
     <div class="container" (click)="change()">
       <img class="light" [ngStyle]="{width:width}" [ngClass]="{isControl:isControl}" [src]="imgSrc" />
 
-      <div class="name">{{lightName}}</div>
+      <div class="name" [ngClass]="{lightNameR:lightNameR}">{{lightName}}</div>
 
     </div>
 
@@ -19,6 +19,7 @@ export class Light1Component {
   @Input() lightName:string='照明';
   @Input() width:string='200px';
   @Input() isControl:boolean=false;
+  @Input() lightNameR:boolean=false;
 
   @Output() changeOn:EventEmitter<any> = new EventEmitter();
 

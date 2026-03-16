@@ -22,7 +22,7 @@ import { Light2Component } from './widgets/light2/light2.component';
           <app-light1 style="z-index: 29;left:370px;top:447px;" lightName="售票区域照明设备"/>
           <app-light1 style="z-index: 28;left:470px;top:307px;" lightName="站厅照明-设备1"/>
           <app-light1 style="z-index: 27;left:650px;top:297px;" lightName="站厅照明-设备2"/>
-          <app-light1 style="z-index: 26;left:820px;top:297px;" lightName="站台照明-设备1"/>
+          <app-light1 style="z-index: 26;left:820px;top:297px;" [lightNameR]="true" lightName="站台照明-设备1"/>
           <app-light1 style="z-index: 25;left:700px;top:447px;" lightName="站台照明-设备2"/>
 
 
