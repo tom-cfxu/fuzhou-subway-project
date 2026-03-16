@@ -1,4 +1,29 @@
 :host {
+  position: absolute;
+  transform: translate(-50%, -50%);
   ::ng-deep {
+    .container {
+      position: relative;
+      .light {
+        transform-origin: top left;
+        &.isControl {
+          cursor: pointer;
+        }
+      }
+      .name {
+        position: absolute;
+        left: 50%;
+        bottom: 40px;
+        transform: translateX(-50%);
+        border-radius: 4px;
+        background-color: rgba(18, 36, 82, 1);
+        color: rgba(255, 255, 255, 1);
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid rgba(80, 135, 236, 1);
+        padding: 0px 10px;
+        white-space: nowrap;
+      }
+    }
   }
 }
