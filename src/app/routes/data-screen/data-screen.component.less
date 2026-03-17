@@ -4,65 +4,68 @@
       // width: 1920px;
       position: relative;
       z-index: 10;
-      .imgs {
-        width: 100%;
-        height: calc(100vh - 64px;);
-        position: absolute;
-        z-index: 20;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        // background: rgba(255, 0, 0, 0.434);
-        .left {
-          width: 28%;
-          height: 100%;
-          // background-image: url(../../../assets/tmp/home/left.png);
-          // background-size: 100% 100%;
-          // background-repeat: no-repeat;
-          // background-position: left center;
-          z-index: 21;
-        }
-        .center {
-          flex-grow: 1;
+      // .imgs {
+      //   width: 100%;
+      //   height: calc(100vh - 64px;);
+      //   position: absolute;
+      //   z-index: 20;
+      //   display: flex;
+      //   justify-content: flex-start;
+      //   align-items: center;
+      //   // background: rgba(255, 0, 0, 0.434);
+      //   .left {
+      //     width: 28%;
+      //     height: 100%;
+      //     // background-image: url(../../../assets/tmp/home/left.png);
+      //     // background-size: 100% 100%;
+      //     // background-repeat: no-repeat;
+      //     // background-position: left center;
+      //     z-index: 21;
+      //   }
+      //   .center {
+      //     flex-grow: 1;
 
-          height: 100%;
-          position: relative;
-          // &::after {
-          //   content: '';
-          //   width: 130%;
-          //   height: 100%;
-          //   position: absolute;
-          //   left: 50%;
-          //   top: 50%;
-          //   transform: translate(-50%, -50%);
-          //   background-image: url(../../../assets/tmp/home/center.png);
-          //   background-size: 100% auto;
-          //   background-position: 50% 50%;
-          //   background-repeat: no-repeat;
-          //   z-index: 19;
-          // }
-        }
-        .right {
-          width: 25%;
-          height: 100%;
-          // background-image: url(../../../assets/tmp/home/right.png);
-          // background-size: 100% 100%;
-          // background-repeat: no-repeat;
-          // background-position: right center;
-          z-index: 21;
-        }
-      }
+      //     height: 100%;
+      //     position: relative;
+      //     // &::after {
+      //     //   content: '';
+      //     //   width: 130%;
+      //     //   height: 100%;
+      //     //   position: absolute;
+      //     //   left: 50%;
+      //     //   top: 50%;
+      //     //   transform: translate(-50%, -50%);
+      //     //   background-image: url(../../../assets/tmp/home/center.png);
+      //     //   background-size: 100% auto;
+      //     //   background-position: 50% 50%;
+      //     //   background-repeat: no-repeat;
+      //     //   z-index: 19;
+      //     // }
+      //   }
+      //   // .right {
+      //   //   width: 28%;
+      //   //   height: 100%;
+      //   //   // background-image: url(../../../assets/tmp/home/right.png);
+      //   //   // background-size: 100% 100%;
+      //   //   // background-repeat: no-repeat;
+      //   //   // background-position: right center;
+      //   //   z-index: 21;
+      //   // }
+      // }
       .data {
         width: 100%;
         height: calc(100vh - 64px;);
         position: absolute;
-        z-index: 30;
+        // z-index: 30;
         display: flex;
         justify-content: flex-start;
         align-content: center;
         .left {
           width: 25%;
           display: flex;
+          // position: absolute;
+          // top: 0;
+          // left: 0;
           flex-direction: column;
           background-image: url(../../../assets/tmp/home/left.png);
           background-size: 100% 100%;
@@ -76,12 +79,16 @@
           }
         }
         .center {
-          flex-grow: 1;
+          // flex-grow: 1;
+          width: 50%;
           display: flex;
           flex-direction: column;
         }
         .right {
           width: 25%;
+          // position: absolute;
+          // right: 0;
+          // top: 0;
           display: flex;
           z-index: 99;
           flex-direction: column;
@@ -104,6 +111,10 @@
           }
         }
       }
+    }
+
+    @media screen {
+      
     }
   }
 }
