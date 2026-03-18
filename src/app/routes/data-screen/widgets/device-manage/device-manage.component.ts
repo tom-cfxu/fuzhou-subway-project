@@ -2,7 +2,7 @@
  * @Author: tom-cfxu cfxu963852741@qq.com
  * @Date: 2026-03-12 02:06:23
  * @LastEditors: weixin_42919480 weixin_42919480@noreply.gitcode.com
- * @LastEditTime: 2026-03-17 16:16:37
+ * @LastEditTime: 2026-03-18 15:25:08
  * @FilePath: \fuzhou-subway-project\src\app\routes\data-screen\widgets\device-manage\device-manage.component.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -52,7 +52,7 @@ device_air:any[]=[
 ];
 
 changeLight(item:any):void{
-  
+
 }
 
 changePower(item:any):void{
