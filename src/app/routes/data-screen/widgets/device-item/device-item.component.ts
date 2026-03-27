@@ -1,3 +1,5 @@
+/* eslint-disable import/order */
+/* eslint-disable prettier/prettier */
 import { Component, Input } from '@angular/core';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CommonModule } from '@angular/common'
@@ -30,7 +32,7 @@ export class DeviceItemComponent {
   @Input() data:any[]=[];
 
   isClose(b:any){
-    return !Boolean(b);
+    return !b;
   }
   change(item:any,index:number){
     if(item.click){

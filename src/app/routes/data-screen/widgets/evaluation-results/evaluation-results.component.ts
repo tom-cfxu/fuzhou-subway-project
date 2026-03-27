@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /*
  * @Author: tom-cfxu cfxu963852741@qq.com
  * @Date: 2026-03-13 01:07:11

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /*
  * @Author: tom-cfxu cfxu963852741@qq.com

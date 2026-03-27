@@ -6,10 +6,10 @@
  * @FilePath: \fuzhou-subway-project\src\app\routes\data-screen\widgets\power-slider\power-slider.component.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 @Component({
   selector: 'app-power-slider',
   imports: [NzSliderModule, FormsModule],
@@ -26,7 +26,7 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
           nzTooltipVisible="never"
           [(ngModel)]="powerLevel"
           (nzOnAfterChange)="onPowerChange($event)"
-        ></nz-slider>
+        />
       </div>
     </div>
   `,

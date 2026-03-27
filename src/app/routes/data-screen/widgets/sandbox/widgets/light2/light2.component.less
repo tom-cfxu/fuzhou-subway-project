@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 :host {
   position: absolute;
   // transform: translate(-50%, -50%);
@@ -5,9 +6,11 @@
   ::ng-deep {
     .container {
       position: relative;
+
       .light2 {
-        transform-origin: center center;
         pointer-events: auto;
+        transform-origin: center center;
+
         &.isControl {
           cursor: pointer;
         }

@@ -1,3 +1,5 @@
+/* eslint-disable import/order */
+/* eslint-disable prettier/prettier */
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common'
 @Component({
@@ -14,7 +16,7 @@ import { CommonModule } from '@angular/common'
   styleUrl: './manyidu.component.less'
 })
 export class ManyiduComponent {
-  @Input() value:number=0;
+  @Input() value=0;
 
   get arr():boolean[]{
     return Array(5).fill(0).map((item,index)=>{

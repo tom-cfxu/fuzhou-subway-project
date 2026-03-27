@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prettier/prettier */
 /*
  * @Author: weixin_42919480 weixin_42919480@noreply.gitcode.com
  * @Date: 2026-03-13 19:53:03

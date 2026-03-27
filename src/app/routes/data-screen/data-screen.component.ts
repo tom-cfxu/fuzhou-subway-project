@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Component } from '@angular/core';
 
 import { BoxCeterControlComponent } from './widgets/box-control/box-control.component';

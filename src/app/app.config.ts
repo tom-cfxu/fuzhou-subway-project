@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { default as ngLang } from '@angular/common/locales/zh';
 import { ApplicationConfig, EnvironmentProviders, Provider } from '@angular/core';
@@ -21,12 +22,10 @@ import { CELL_WIDGETS, SF_WIDGETS, ST_WIDGETS } from '@shared';
 import { zhCN as dateLang } from 'date-fns/locale';
 import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
 import { zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
-// import { MqttModule } from 'ngx-mqtt';
 
 import { ICONS } from '../style-icons';
 import { ICONS_AUTO } from '../style-icons-auto';
 import { routes } from './routes/routes';
-// 定义 MQTT 配置接口（消除类型错误）
 
 const defaultLang: AlainProvideLang = {
   abbr: 'zh-CN',
@@ -45,15 +44,6 @@ const alainConfig: AlainConfig = {
   },
   auth: { login_url: '/passport/login' }
 };
-// const MQTT_CONFIG: any = {
-//   connectOnCreate: true,
-//   hostname: '123.56.51.64', // MQTT 服务器地址
-//   port: 8083, // 端口（ws默认8083，wss默认8084，mqtt默认1883）
-//   protocol: 'ws',
-//   path: '/mqtt',
-//   username: 'ymdreams',
-//   password: 'ymdreams@2026'
-// };
 
 const ngZorroConfig: NzConfig = {};
 
@@ -75,9 +65,6 @@ const providers: Array<Provider | EnvironmentProviders> = [
   provideSFConfig({ widgets: SF_WIDGETS }),
   provideStartup(),
   ...(environment.providers || [])
-  // 注入 HTTP 客户端
-  // importProvidersFrom()
-  // ...MqttModule.forRoot(MQTT_CONFIG).providers!
 ];
 
 // If you use `@delon/auth` to refresh the token, additional registration `provideBindAuthRefresh` is required
