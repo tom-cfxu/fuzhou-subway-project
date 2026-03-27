@@ -1,0 +1,40 @@
+/* stylelint-disable font-family-no-missing-generic-family-keyword */
+:host {
+  user-select: none;
+  width: 100%;
+  padding: 10px 20px;
+  padding-left: 0;
+  // align-self: flex-end;
+  ::ng-deep {
+    .container1 {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      width: 100%;
+      padding: 5px 10px;
+      border: 1px solid #5087ec4a;
+      border-radius: 11px;
+      background-color: #5087ec33;
+
+      .title {
+        height: 31px;
+        font-family: YSBiaoTiHei-regular;
+        font-size: 24px;
+        line-height: 31px;
+        color: rgb(88 165 92 / 100%);
+        // margin-right: 10px;
+      }
+
+      .smile {
+        cursor: pointer;
+        width: 35px;
+        opacity: 0.3;
+
+        &.good {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "mqtt": {
+    "host": "123.56.51.64",
+    "protocol": "ws",
+    "port": 8083,
+    "username": "ymdreams",
+    "password": "ymdreams@2026",
+    "path": "/mqtt",
+    "clientId": "",
+    "keepalive": 60,
+    "reconnectPeriod": 1000,
+    "clean": true
+  }
+}

@@ -1,0 +1,247 @@
+/* You can add global styles to this file, and also import other style files */
+
+// ==========The following is the custom theme variable area==========
+// The theme paraments can be generated at https://ng-alain.github.io/ng-alain/
+// @primary-color: #f50;
+@font-face {
+  font-family: 'YSBiaoTiHei-regular';
+  src: url('../assets/tmp/fonts/YSBiaoTiHei-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'PingFangSC-Regular';
+  src: url('../assets/tmp/fonts/PingFangSC-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 庞门正道标题体 */
+@font-face {
+  font-family: 'PMZDBiaoTi-regular';
+  src: url('../assets/tmp/fonts/PMZDBiaoTi-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family:
+    'PingFangSC',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif !important;
+}
+
+// 覆盖 ng-zorro-antd 组件库字体（关键：ng-alain 基于 NG-ZORRO）
+:root {
+  --ant-font-family: 'PingFangSC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.ant-checkbox + span {
+  user-select: none;
+}
+
+// 节能模式弹窗 - 全局样式（仅作用于类名为 energy-modal-container 的弹窗）
+.energy-modal-confirm {
+  // 弹窗整体容器
+  .ant-modal-content {
+    background-color: #000f2680 !important; // 深色背景
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border: 1px solid rgba(77, 130, 228, 1) !important;
+    border-radius: 12px !important;
+    transition: none;
+    // box-shadow: 0 0 20px rgba(77, 130, 228, 1) !important;
+  }
+
+  // 弹窗头部（标题区域）
+  .ant-modal-header {
+    background-color: transparent !important; // 透明背景
+    border-bottom: none !important; // 去掉底部分隔线
+    padding: 24px !important;
+  }
+
+  // 标题文字
+  .ant-modal-title {
+    color: #ffffff !important; // 白色文字
+    font-size: 18px !important;
+    // font-weight: 500 !important;
+    display: flex;
+    align-items: center;
+    gap: 16px; // 图标和文字间距
+    margin: 0 !important; // 去掉默认边距
+  }
+
+  // 标题前的橙色感叹号（伪元素实现）
+  .ant-modal-title::before {
+    content: '!';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ff6d00 !important; // 橙色背景
+    color: white !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    line-height: 1 !important;
+  }
+
+  // 隐藏内容区（无额外内容）
+  .ant-modal-body {
+    display: none !important;
+  }
+
+  // 底部按钮区域
+  .ant-modal-footer {
+    background-color: transparent !important;
+    border-top: none !important;
+    padding: 16px 24px 24px !important;
+    text-align: right !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 16px !important; // 按钮间距
+    margin: 0 !important; // 去掉默认边距
+  }
+
+  // 取消按钮样式
+  .ant-modal-footer .ant-btn {
+    background-color: #bbbbbb !important;
+    color: #000000 !important;
+    width: 69px !important;
+    height: 24px !important;
+    border: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // 确认按钮样式
+  .ant-modal-footer .ant-btn-primary {
+    background: #5087ec !important;
+    color: #ffffff !important;
+    border: none !important;
+  }
+
+  // 隐藏右上角关闭按钮
+  .ant-modal-close {
+    display: none !important;
+  }
+}
+
+.energy-modal {
+  // 弹窗整体容器
+  .ant-modal-content {
+    background-color: #000f2690 !important; // 深色背景
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border: 1px solid rgba(77, 130, 228, 1) !important;
+    border-radius: 12px !important;
+    // &::before {
+    //   content: ''; /* 伪元素必须有content */
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   width: 100%;
+    //   height: 100%;
+    //   background-color: #000f2690 !important; // 深色背景
+    //   /* 模糊后可能偏移，扩大一点尺寸抵消 */
+    //   transform: scale(1.05);
+    //   // z-index: 18; /* 背景层在最下层 */
+    // }
+    // box-shadow: 0 0 20px rgba(77, 130, 228, 1) !important;
+  }
+
+  // 弹窗头部（标题区域）
+  .ant-modal-header {
+    background-color: transparent !important; // 透明背景
+    border-bottom: none !important; // 去掉底部分隔线
+    padding: 10px 20px !important;
+  }
+
+  // 标题文字
+  .ant-modal-title {
+    color: #ffffff !important; // 白色文字
+    font-size: 18px !important;
+    // font-weight: 500 !important;
+    display: flex;
+    align-items: center;
+    margin: 0 !important; // 去掉默认边距
+  }
+
+  // 隐藏内容区（无额外内容）
+  .ant-modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // display: none !important;
+  }
+
+  // 底部按钮区域
+  .ant-modal-footer {
+    background-color: transparent !important;
+    border-top: none !important;
+    padding: 16px 24px 10px !important;
+    text-align: right !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 16px !important; // 按钮间距
+    margin: 0 !important; // 去掉默认边距
+  }
+
+  // 取消按钮样式
+  .ant-modal-footer .ant-btn {
+    background-color: #bbbbbb !important;
+    color: #000000 !important;
+    width: 69px !important;
+    height: 24px !important;
+    border: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // 确认按钮样式
+  .ant-modal-footer .ant-btn-primary {
+    background: #5087ec !important;
+    color: #ffffff !important;
+    border: none !important;
+  }
+
+  // 隐藏右上角关闭按钮
+  .ant-modal-close {
+    // display: none !important;
+  }
+}
+
+.empty-modal {
+  // 弹窗整体容器
+  .ant-modal-content {
+    background-color: transparent !important; // 深色背景
+    border: none !important;
+
+    box-shadow: none !important;
+  }
+
+  // 弹窗头部（标题区域）
+  .ant-modal-header {
+    display: none;
+  }
+
+  // 标题文字
+  .ant-modal-title {
+    display: none;
+  }
+
+  // 隐藏内容区（无额外内容）
+  .ant-modal-body {
+  }
+
+  // 底部按钮区域
+  .ant-modal-footer {
+    display: none;
+  }
+}

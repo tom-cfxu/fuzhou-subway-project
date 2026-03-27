@@ -1,0 +1,46 @@
+:host {
+  position: relative;
+  ::ng-deep {
+    .container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    .sandbox {
+      position: relative;
+      width: 100%;
+
+      max-width: 1000px;
+      min-width: 1000px;
+      aspect-ratio: 4/3;
+      .map {
+        position: absolute;
+        overflow: visible;
+        top: 0;
+        left: 0;
+        width: 100%; /* 宽度随容器缩放 */
+        height: 100%; /* 高度随容器缩放 */
+        object-fit: cover; /* 保持图片比例，裁剪多余部分（可选） */
+      }
+
+      .device-name,
+      .device-name2 {
+        position: absolute;
+        border-radius: 4px;
+        background-color: rgba(88, 165, 92, 1);
+        color: rgba(255, 255, 255, 1);
+        font-size: 14px;
+        text-align: center;
+        font-family: PingFangSC-regular;
+        border: 1px solid rgba(122, 212, 127, 1);
+        padding: 0px 10px;
+        white-space: nowrap;
+      }
+      .device-name2 {
+        background-color: #122452;
+        border: 1px solid rgba(80, 135, 236, 1);
+      }
+    }
+  }
+}

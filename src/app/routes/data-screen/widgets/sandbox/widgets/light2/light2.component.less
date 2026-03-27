@@ -1,0 +1,17 @@
+:host {
+  position: absolute;
+  // transform: translate(-50%, -50%);
+  // transform-origin: top left;
+  ::ng-deep {
+    .container {
+      position: relative;
+      .light2 {
+        transform-origin: center center;
+        pointer-events: auto;
+        &.isControl {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

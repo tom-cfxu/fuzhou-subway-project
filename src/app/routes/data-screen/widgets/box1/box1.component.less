@@ -1,0 +1,35 @@
+/* stylelint-disable font-family-no-missing-generic-family-keyword */
+:host {
+  pointer-events: none;
+  user-select: none;
+
+  ::ng-deep {
+    .box {
+      width: 80%;
+      padding: 30px;
+
+      .item {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 15px;
+
+        .item-icon {
+          height: 43px;
+        }
+
+        .item-data {
+          .value {
+            font-family: YSBiaoTiHei-regular;
+            font-size: 24px;
+            line-height: 24px;
+          }
+
+          .title {
+            color: #7d828d;
+          }
+        }
+      }
+    }
+  }
+}

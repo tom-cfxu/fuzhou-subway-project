@@ -1,0 +1,84 @@
+/* stylelint-disable font-family-no-missing-generic-family-keyword */
+:host {
+  user-select: none;
+  overflow: visible;
+  width: 120%;
+
+  ::ng-deep {
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+
+      .control {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        margin-right: 20px;
+        font-family: PMZDBiaoTi-regular;
+        font-size: 16px;
+        line-height: 16px;
+        white-space: nowrap;
+
+        h1 {
+          margin: 0;
+          margin-left: 5px;
+          line-height: 32px;
+          color: #5087ec;
+          white-space: nowrap;
+
+          .b1 {
+            padding: 0;
+          }
+        }
+      }
+
+      .my-button {
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+        padding: 0 10px;
+        border: 2px solid rgb(88 165 92 / 100%);
+        border-radius: 15px;
+        font-family: YSBiaoTiHei-regular;
+        font-size: 28px;
+        color: rgb(88 165 92 / 100%);
+        text-align: center;
+        white-space: nowrap;
+        background-color: rgb(39 59 94 / 40%);
+        // &:hover {
+        //   border: 2px solid rgba(80, 135, 236, 1);
+        //   color: rgba(80, 135, 236, 1);
+        // }
+        &::after {
+          content: '';
+          position: absolute;
+          top: -10px;
+          right: -10px;
+          width: 30px;
+          height: 30px;
+          background-image: url('../../../../../assets/tmp/home/logo4.png');
+          background-repeat: no-repeat;
+          background-size: 100%;
+        }
+
+        img {
+          height: 20px;
+        }
+      }
+    }
+
+    .button2 {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+      margin-right: 20%;
+    }
+  }
+}
