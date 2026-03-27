@@ -21,18 +21,18 @@ import { CELL_WIDGETS, SF_WIDGETS, ST_WIDGETS } from '@shared';
 import { zhCN as dateLang } from 'date-fns/locale';
 import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
 import { zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
-import { MqttModule, IMqttServiceOptions } from 'ngx-mqtt';
+// import { MqttModule, IMqttServiceOptions } from 'ngx-mqtt';
 
 import { ICONS } from '../style-icons';
 import { ICONS_AUTO } from '../style-icons-auto';
 import { routes } from './routes/routes';
 
 // 2. 定义 MQTT 连接配置（和之前一致）
-const MQTT_CONFIG: IMqttServiceOptions = {
-  hostname: '123.56.51.64',
-  port: 8083,
-  path: '/mqtt'
-};
+// const MQTT_CONFIG: IMqttServiceOptions = {
+//   hostname: '123.56.51.64',
+//   port: 8083,
+//   path: '/mqtt'
+// };
 const defaultLang: AlainProvideLang = {
   abbr: 'zh-CN',
   ng: ngLang,
@@ -71,7 +71,7 @@ const providers: Array<Provider | EnvironmentProviders> = [
   provideSFConfig({ widgets: SF_WIDGETS }),
   provideStartup(),
   ...(environment.providers || []),
-  ...MqttModule.forRoot(MQTT_CONFIG).providers!
+  // ...MqttModule.forRoot(MQTT_CONFIG).providers!
 ];
 
 // If you use `@delon/auth` to refresh the token, additional registration `provideBindAuthRefresh` is required

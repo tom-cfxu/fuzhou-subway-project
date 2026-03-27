@@ -1,3 +1,11 @@
+/*
+ * @Author: weixin_42919480 weixin_42919480@noreply.gitcode.com
+ * @Date: 2026-03-27 16:50:42
+ * @LastEditors: weixin_42919480 weixin_42919480@noreply.gitcode.com
+ * @LastEditTime: 2026-03-27 16:53:05
+ * @FilePath: \fuzhou-subway-project2\src\app\app.config copy.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { default as ngLang } from '@angular/common/locales/zh';
 import { ApplicationConfig, EnvironmentProviders, Provider } from '@angular/core';
@@ -21,7 +29,7 @@ import { CELL_WIDGETS, SF_WIDGETS, ST_WIDGETS } from '@shared';
 import { zhCN as dateLang } from 'date-fns/locale';
 import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
 import { zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
-import { MqttModule } from 'ngx-mqtt';
+// import { MqttModule } from 'ngx-mqtt';
 
 import { ICONS } from '../style-icons';
 import { ICONS_AUTO } from '../style-icons-auto';
@@ -77,7 +85,7 @@ const providers: Array<Provider | EnvironmentProviders> = [
   ...(environment.providers || []),
   // 注入 HTTP 客户端
   // importProvidersFrom()
-  ...MqttModule.forRoot(MQTT_CONFIG).providers!
+  // ...MqttModule.forRoot(MQTT_CONFIG).providers!
 ];
 
 // If you use `@delon/auth` to refresh the token, additional registration `provideBindAuthRefresh` is required

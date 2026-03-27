@@ -69,6 +69,7 @@
     "@angular/compiler-cli": "^21.1.2",
     "@delon/testing": "^21.0.5",
     "@playwright/test": "^1.57.0",
+    "@types/node": "^25.5.0",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
     "@typescript-eslint/utils": "^8.54.0",
