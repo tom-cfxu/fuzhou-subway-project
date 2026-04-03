@@ -1,12 +1,21 @@
-import { HttpClient } from '@angular/common/http';
+/*
+ * @Author: weixin_42919480 weixin_42919480@noreply.gitcode.com
+ * @Date: 2026-03-27 16:50:28
+ * @LastEditors: weixin_42919480 weixin_42919480@noreply.gitcode.com
+ * @LastEditTime: 2026-04-03 12:20:17
+ * @FilePath: \fuzhou-subway-project2\src\app\core\startup\startup.service.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { EnvironmentProviders, Injectable, Provider, inject, provideAppInitializer } from '@angular/core';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
-import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
+import { _HttpClient, ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { Observable, zip, catchError, map } from 'rxjs';
 
 import { I18NService } from '../i18n/i18n.service';
+import { ALLOW_ANONYMOUS } from '@delon/auth';
 
 /**
  * Used for application startup
@@ -37,6 +46,7 @@ export class StartupService {
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
+    this.loadHost();
     // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
     // this.httpClient.get('/app', { context: new HttpContext().set(ALLOW_ANONYMOUS, this.tokenService.get()?.token ? false : true) })
     return zip(this.i18n.loadLangData(defaultLang), this.httpClient.get('./assets/tmp/app-data.json')).pipe(
@@ -61,7 +71,26 @@ export class StartupService {
         // 设置页面标题的后缀
         this.titleService.default = '';
         this.titleService.suffix = appData.app.name;
-      })
+      }),
     );
+  }
+
+  loadHost():void{
+    this.httpClient.get('/assets/tmp/api.json', {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    }).subscribe({
+      next: (res:any) => {
+        if(res['code']===0){
+          const host:string =res.data['host'];
+          const dataRefreshMinutes:string =res.data['dataRefreshMinutes'];
+          localStorage.setItem('host',host);
+          localStorage.setItem('dataRefreshMinutes',dataRefreshMinutes);
+        }
+      },
+      error: (err) => {
+        console.error('请求失败：', err);
+      }
+    });
+
   }
 }

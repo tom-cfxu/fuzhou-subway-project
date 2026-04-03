@@ -64,9 +64,14 @@ function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<a
 export const defaultInterceptor: HttpInterceptorFn = (req, next) => {
   // 统一加上服务端前缀
   let url = req.url;
+  // console.log('url0',url)
   if (!req.context.get(IGNORE_BASE_URL) && !url.startsWith('https://') && !url.startsWith('http://')) {
+    // const baseUrl=localStorage.getItem();
     const { baseUrl } = environment.api;
+    // console.log(baseUrl);
+    // console.log(localStorage.getItem('host'));
     url = baseUrl + (baseUrl.endsWith('/') && url.startsWith('/') ? url.substring(1) : url);
+    // console.log('url1',url)
   }
   const newReq = req.clone({ url, setHeaders: getAdditionalHeaders(req.headers) });
   const injector = inject(Injector);

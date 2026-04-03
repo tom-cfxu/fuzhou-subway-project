@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { BoxCeterControlComponent } from './widgets/box-control/box-control.component';
 import { Box1Component } from './widgets/box1/box1.component';
@@ -8,6 +8,7 @@ import { Box3EchartComponent } from './widgets/box3-echart/box3-echart.component
 import { DeviceManageComponent } from './widgets/device-manage/device-manage.component';
 import { SandboxComponent } from './widgets/sandbox/sandbox.component';
 import { DataTitleComponent } from './widgets/title/title.component';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-data-screen',
@@ -56,4 +57,8 @@ import { DataTitleComponent } from './widgets/title/title.component';
   `,
   styleUrl: './data-screen.component.less'
 })
-export class DataScreenComponent {}
+export class DataScreenComponent {
+
+
+
+}

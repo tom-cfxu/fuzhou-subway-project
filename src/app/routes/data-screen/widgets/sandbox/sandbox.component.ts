@@ -5,7 +5,7 @@
  * @Author: weixin_42919480 weixin_42919480@noreply.gitcode.com
  * @Date: 2026-03-13 18:36:43
  * @LastEditors: weixin_42919480 weixin_42919480@noreply.gitcode.com
- * @LastEditTime: 2026-03-17 16:32:34
+ * @LastEditTime: 2026-04-03 11:04:56
  * @FilePath: \fuzhou-subway-project\src\app\routes\data-screen\widgets\sandbox\sandbox.component.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -20,7 +20,7 @@ import { Light2Component } from './widgets/light2/light2.component';
   template: `
     <div class="container">
       <div class="sandbox">
-        <img style="z-index: 9;" class="map" src="../../../../../assets/tmp/home/map.png" />
+        <img style="z-index: 9;" class="map" src="../../../../../assets/tmp/home/bg_center.png" />
         <app-light1
           style="z-index: 98;left:230px;top:370px;"
           lightName="检票区域照明设备"
@@ -51,7 +51,6 @@ import { Light2Component } from './widgets/light2/light2.component';
         />
         <app-light1
           style="z-index: 94;left:820px;top:297px;"
-          [lightNameR]="true"
           lightName="站台照明-设备1"
           [on]="lightData['005']"
           [isControl]="true"

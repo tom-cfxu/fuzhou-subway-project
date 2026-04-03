@@ -54,7 +54,7 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
     // });
   }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
 
   e1: any;

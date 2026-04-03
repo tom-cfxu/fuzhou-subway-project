@@ -1,0 +1,9 @@
+{
+  "code":0,
+  "msg":"请求成功",
+  "data":{
+    "host":"http://123.56.51.64:9090",
+    "dataRefreshMinutes":20,
+    "mqtt":""
+  }
+}

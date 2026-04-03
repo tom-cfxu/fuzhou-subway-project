@@ -1,15 +1,17 @@
 /*
  * @Author: tom-cfxu cfxu963852741@qq.com
  * @Date: 2026-03-02 14:42:05
- * @LastEditors: tom-cfxu cfxu963852741@qq.com
- * @LastEditTime: 2026-03-11 18:46:29
+ * @LastEditors: weixin_42919480 weixin_42919480@noreply.gitcode.com
+ * @LastEditTime: 2026-04-03 12:17:25
  * @FilePath: \my-project\src\app\layout\passport\passport.component.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
+import { HttpContext } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GlobalFooterModule } from '@delon/abc/global-footer';
-import { DA_SERVICE_TOKEN } from '@delon/auth';
+import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN } from '@delon/auth';
+import { _HttpClient } from '@delon/theme';
 // import { ThemeBtnComponent } from '@delon/theme/theme-btn';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
@@ -40,8 +42,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   imports: [RouterOutlet, GlobalFooterModule, NzIconModule]
 })
 export class LayoutPassportComponent implements OnInit {
-  private tokenService = inject(DA_SERVICE_TOKEN);
 
+  constructor(){
+    // this.loadHost()
+  }
+
+  private tokenService = inject(DA_SERVICE_TOKEN);
+  private http = inject(_HttpClient);
   links = [
     {
       title: '帮助',
@@ -60,4 +67,6 @@ export class LayoutPassportComponent implements OnInit {
   ngOnInit(): void {
     this.tokenService.clear();
   }
+
+
 }
