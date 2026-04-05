@@ -64,10 +64,11 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       const a = data.filter((d: any) => d.deviceType === 'aircondition');
       this.device_light.forEach((item: any) => {
         item.status = l.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
-        // item.value = l.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
+        item.value = l.find((d: any) => d.deviceKey === item.deviceKey)?.carbonEmission.toFixed(1);
       });
       this.device_air.forEach((item: any) => {
         item.status = a.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
+        item.value = a.find((d: any) => d.deviceKey === item.deviceKey)?.carbonEmission.toFixed(1);
       });
       this.device_light = [...this.device_light];
       this.device_air = [...this.device_air];

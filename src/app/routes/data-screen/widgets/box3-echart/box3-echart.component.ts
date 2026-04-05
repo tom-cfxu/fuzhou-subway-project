@@ -1,5 +1,5 @@
 /* eslint-disable import/order */
-import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ChartEChartsModule, ChartEChartsOption } from '@delon/chart/chart-echarts';
 import { FormsModule } from '@angular/forms';
 import { HttpService } from 'src/app/services/http.service';
@@ -18,10 +18,13 @@ import { Observable } from 'rxjs';
   `,
   styleUrl: './box3-echart.component.less'
 })
-export class Box3EchartComponent implements AfterViewInit, OnDestroy {
+export class Box3EchartComponent implements OnInit, AfterViewInit, OnDestroy {
   timer: any;
 
   private dataRefreshMinutes = Number(localStorage.getItem('dataRefreshMinutes') || '20');
+  ngOnInit(): void {
+    this.loadData();
+  }
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.loadData();
@@ -160,9 +163,6 @@ export class Box3EchartComponent implements AfterViewInit, OnDestroy {
       });
     });
   }
-  // handleEvents(e: ChartEChartsEvent): void {
-  //   // console.log(e);
-  // }
 
   ngOnDestroy(): void {
     if (this.timer) {

@@ -43,7 +43,7 @@ export class DeviceService {
         next: (res: Respond) => {
           if (res.code === 0 && res.data) {
             o.next(true);
-            // this.initDeviceTotal();
+            this.initDeviceTotal();
           } else {
             o.next(false);
           }

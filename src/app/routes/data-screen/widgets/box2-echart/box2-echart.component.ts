@@ -61,6 +61,7 @@ export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
   timer: any;
   private dataRefreshMinutes = Number(localStorage.getItem('dataRefreshMinutes') || '20');
   ngOnInit(): void {
+    this.changeRadio(this.value);
     this.timer = setInterval(
       () => {
         this.changeRadio(this.value);
