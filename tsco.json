@@ -1,0 +1,166 @@
+{
+    "files": {
+        "include": [
+            "./**/*.ts"
+        ],
+        "exclude": [
+            "./**/*.d.ts",
+            "node_modules/**",
+            "dist/**",
+            "out/**"
+        ]
+    },
+    "imports": {
+        "removeUnusedImports": true,
+        "sortImportsBySource": true,
+        "sortImportsByName": true,
+        "groupImportsBySource": true,
+        "separateImportGroups": true,
+        "quote": "double",
+        "expand": "never"
+    },
+    "modules": {
+        "regions": {
+            "addRegions": false
+        },
+        "members": {
+            "treatArrowFunctionVariablesAsMethods": false,
+            "treatArrowFunctionConstantsAsMethods": false
+        },
+        "memberGroups": [
+            {
+                "sortDirection": "asc",
+                "caption": "Enums",
+                "memberTypes": ["enums", "exportedEnums"]
+            },
+            {
+                "sortDirection": "asc",
+                "caption": "Interfaces",
+                "memberTypes": ["interfaces", "exportedInterfaces"]
+            },
+            {
+                "sortDirection": "asc",
+                "caption": "Classes",
+                "memberTypes": ["classes", "exportedClasses"]
+            },
+            {
+                "sortDirection": "asc",
+                "caption": "Types",
+                "memberTypes": ["types", "exportedTypes"]
+            },
+            {
+                "sortDirection": "asc",
+                "caption": "Functions",
+                "memberTypes": ["functions", "exportedFunctions"]
+            },
+            {
+                "sortDirection": "asc",
+                "caption": "Variables",
+                "memberTypes": ["constants", "variables", "exportedConstants", "exportedVariables"]
+            }
+        ]
+    },
+    "classes": {
+        "regions": {
+            "addRegions": false
+        },
+        "members": {
+            "addPublicModifierIfMissing": false,
+            "addPrivateModifierIfStartingWithHash": false,
+            "groupMembersWithDecorators": true,
+            "treatArrowFunctionPropertiesAsMethods": false,
+            "treatArrowFunctionReadOnlyPropertiesAsMethods": false
+        },
+        "memberGroups": [
+            {
+                "caption": "Properties",
+                "memberTypes": [
+                    "privateStaticReadOnlyProperties",
+                    "privateReadOnlyProperties",
+                    "privateStaticProperties",
+                    "privateProperties",
+                    "protectedStaticReadOnlyProperties",
+                    "protectedReadOnlyProperties",
+                    "protectedStaticProperties",
+                    "protectedProperties",
+                    "publicStaticReadOnlyProperties",
+                    "publicReadOnlyProperties",
+                    "publicStaticProperties",
+                    "publicProperties"
+                ],
+                "placeBelow": ["Constructors", "Accessors", "Methods"]
+            },
+            {
+                "caption": "Constructors",
+                "memberTypes": ["constructors"],
+                "placeAbove": ["Properties"],
+                "placeBelow": ["Accessors", "Methods"]
+            },
+            {
+                "caption": "Accessors",
+                "memberTypes": [
+                    "publicStaticAccessors",
+                    "publicAccessors",
+                    "protectedStaticAccessors",
+                    "protectedAccessors",
+                    "privateStaticAccessors",
+                    "privateAccessors"
+                ],
+                "placeAbove": ["Properties", "Constructors"],
+                "placeBelow": ["Methods"]
+            },
+            {
+                "caption": "Methods",
+                "memberTypes": [
+                    "publicStaticMethods",
+                    "publicMethods",
+                    "protectedStaticMethods",
+                    "protectedMethods",
+                    "privateStaticMethods",
+                    "privateMethods"
+                ],
+                "placeAbove": ["Properties", "Constructors", "Accessors"]
+            }
+        ]
+    },
+    "interfaces": {
+        "regions": {
+            "addRegions": false
+        },
+        "members": {
+            "treatArrowFunctionPropertiesAsMethods": false
+        },
+        "memberGroups": [
+            {
+                "caption": "Properties",
+                "memberTypes": ["readOnlyProperties", "properties"],
+                "placeBelow": ["Methods"]
+            },
+            {
+                "caption": "Methods",
+                "memberTypes": ["methods"],
+                "placeAbove": ["Properties"]
+            }
+        ]
+    },
+    "types": {
+        "regions": {
+            "addRegions": false
+        },
+        "members": {
+            "treatArrowFunctionPropertiesAsMethods": false
+        },
+        "memberGroups": [
+            {
+                "caption": "Properties",
+                "memberTypes": ["properties"],
+                "placeBelow": ["Methods"]
+            },
+            {
+                "caption": "Methods",
+                "memberTypes": ["methods"],
+                "placeAbove": ["Properties"]
+            }
+        ]
+    }
+}

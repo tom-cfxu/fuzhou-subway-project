@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ChartEChartsEvent, ChartEChartsModule, ChartEChartsOption } from '@delon/chart/chart-echarts';
+import { ChartEChartsModule, ChartEChartsOption } from '@delon/chart/chart-echarts';
 import moment from 'moment';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -41,22 +40,35 @@ import { HttpService } from 'src/app/services/http.service';
         </nz-checkbox-group>
 
         <div [style.width.%]="55">
-          <chart-echarts class="echart" height="100%" [option]="option" theme="dark" (events)="handleEvents($event)" />
+          <chart-echarts class="echart" height="100%" [option]="option" theme="dark" />
+          <!--  (events)="handleEvents($event)"  -->
         </div>
       </div>
     </nz-spin>
   `,
   styleUrl: './box2-echart.component.less'
 })
-export class Box2EchartComponent implements OnInit,AfterViewInit {
-
+export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
+  ngOnDestroy(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  }
   ngAfterViewInit(): void {
     this.changeRadio(this.value);
   }
-  ngOnInit(): void {
 
+  timer: any;
+  private dataRefreshMinutes = Number(localStorage.getItem('dataRefreshMinutes') || '20');
+  ngOnInit(): void {
+    this.timer = setInterval(
+      () => {
+        this.changeRadio(this.value);
+      },
+      this.dataRefreshMinutes * 1000 * 60
+    );
   }
-  isSpinning: boolean = false;
+  isSpinning = true;
 
   value: any[] = ['车站空调系统', '照明系统'];
   private readonly cdr = inject(ChangeDetectorRef);
@@ -138,7 +150,13 @@ export class Box2EchartComponent implements OnInit,AfterViewInit {
         type: 'cross',
         label: { backgroundColor: '#6a7985' }
       },
-      textStyle: { color: '#000' }
+      backgroundColor: 'rgba(5, 18, 45, 0.7)',
+      borderColor: 'rgba(38, 111, 255)',
+      textStyle: {
+        color: '#ffffff', // 文字白色
+        fontSize: 12,
+        fontFamily: 'PingFangSC-Regular'
+      }
     },
     legend: {
       data: ['照明系统碳排放', '车站空调碳排放'],
@@ -166,7 +184,7 @@ export class Box2EchartComponent implements OnInit,AfterViewInit {
     yAxis: {
       type: 'value',
       min: 0,
-      // max: 250,
+      max: 500,
       // interval: 50,
       axisLine: { lineStyle: { color: '#fff' } },
       axisLabel: { color: '#fff' },
@@ -175,54 +193,52 @@ export class Box2EchartComponent implements OnInit,AfterViewInit {
     series: []
   };
   private http = inject(HttpService);
-  getHttpData(value:string[]):Observable<any>{
+  getHttpData(value: string[]): Observable<any> {
     // if(value.length==0){
     //   this.isSpinning=false;
     //   return new Observable(o=>{
     //     o.next([]);
     //   });
     // }
-    return new Observable(o=>{
-      this.isSpinning=true;
+    return new Observable(o => {
+      this.isSpinning = true;
 
       this.http.api.carbonTrendTime(value).subscribe({
-        next:(res)=>{
-          this.isSpinning=false;
-          if(res.code==0){
-            o.next(res.data||[])
+        next: res => {
+          this.isSpinning = false;
+          if (res.code == 0) {
+            o.next(res.data || []);
           }
         },
-        error:(err)=>{
-          this.isSpinning=false;
-        },
-      })
-
-    })
+        error: () => {
+          this.isSpinning = false;
+        }
+      });
+    });
   }
 
   changeRadio(value: string[]): void {
-
-    const keys:string[]=value.map(ch=>{
-      return this.radioData[ch]['key']
-    })
+    const keys: string[] = value.map(ch => {
+      return this.radioData[ch]['key'];
+    });
     // console.log('value',value);
     // console.log('keys',keys);
 
-    this.getHttpData(keys).subscribe(data=>{
-      this.isSpinning=false;
-      try{
-        const obj:any={};
-        keys.forEach((key,index)=>{
-          const keylist=data.map((item:any) =>{
-            const e=item['trendData'][key];
+    this.getHttpData(keys).subscribe(data => {
+      this.isSpinning = false;
+      try {
+        const obj: any = {};
+        keys.forEach((key, index) => {
+          const keylist = data.map((item: any) => {
+            const e = item['trendData'][key];
             // console.log(e);
             return {
               ...e,
-              time:moment(e['updateTime']||e['createTime']).format('H时')
-            }
-          })
-          obj[value[index]]=keylist.sort((a:any,b:any)=>a['updateTime']-b['updateTime']);
-        })
+              time: moment(e['updateTime'] || e['createTime']).format('H时')
+            };
+          });
+          obj[value[index]] = keylist.sort((a: any, b: any) => a['updateTime'] - b['updateTime']);
+        });
         // console.log('obj',obj);
         const newSeries = Object.keys(obj).map(name => {
           return {
@@ -250,12 +266,12 @@ export class Box2EchartComponent implements OnInit,AfterViewInit {
                 ]
               }
             },
-            data: obj[name].map((item:any)=>item['trendValue'])//new Array(11).fill(0).map(() => Math.floor(Math.random() * 200) + 20)
+            data: obj[name].map((item: any) => item['trendValue']) //new Array(11).fill(0).map(() => Math.floor(Math.random() * 200) + 20)
           };
         });
         const legendData = value.map(name => `${name}碳排放`);
 
-        console.log(newSeries, legendData);
+        // console.log(newSeries, legendData);
         this.option['series'] = newSeries;
         this.option['legend'] = {
           data: legendData,
@@ -266,22 +282,18 @@ export class Box2EchartComponent implements OnInit,AfterViewInit {
           itemWidth: 12,
           itemHeight: 8
         };
-        if(Object.values(obj).length>0){
-          (this.option['xAxis'] as any)['data']=((Object.values(obj)[0]||[]) as any[]).map((e:any)=>e['time']);
-
+        if (Object.values(obj).length > 0) {
+          (this.option['xAxis'] as any)['data'] = ((Object.values(obj)[0] || []) as any[]).map((e: any) => e['time']);
         }
         this.option = { ...this.option };
         this.cdr.detectChanges();
-      }catch(err){
-        console.error(err)
+      } catch (err) {
+        console.error(err);
       }
-
-    })
-
-
+    });
   }
 
-  handleEvents(e: ChartEChartsEvent): void {
-    console.log(e);
-  }
+  // handleEvents(e: ChartEChartsEvent): void {
+  //   console.log(e);
+  // }
 }

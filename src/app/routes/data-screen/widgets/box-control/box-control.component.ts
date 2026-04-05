@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-// import { MqttTotalService } from 'src/app/services/mqtt.service';
 
 import { EvaluationResultsComponent } from '../evaluation-results/evaluation-results.component';
 @Component({
@@ -117,10 +116,7 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
       nzMaskClosable: false,
       nzOnOk: () => {
         this.mode = Number(!this.mode);
-
-        setTimeout(() => {
-          this.cdr.detectChanges();
-        });
+        this.cdr.detectChanges();
       }
     });
   }

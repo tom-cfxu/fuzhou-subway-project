@@ -30,50 +30,56 @@ import { HttpService } from 'src/app/services/http.service';
   `,
   styleUrl: './box1.component.less'
 })
-export class Box1Component implements OnInit,OnDestroy {
+export class Box1Component implements OnInit, OnDestroy {
   ngOnDestroy(): void {
-    if(this.timer){
-      clearInterval(this.timer)
+    if (this.timer) {
+      clearInterval(this.timer);
     }
   }
 
   private http = inject(HttpService);
-  private dataRefreshMinutes:number =Number(localStorage.getItem('dataRefreshMinutes')||'20');
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  private dataRefreshMinutes: number = Number(localStorage.getItem('dataRefreshMinutes') || '20');
   private readonly cdr = inject(ChangeDetectorRef);
   ngOnInit(): void {
-    this.loadData();
-    this.timer=setInterval(()=>{
+    setTimeout(() => {
       this.loadData();
-    },this.dataRefreshMinutes*1000*60);
+    });
+    this.timer = setInterval(
+      () => {
+        this.loadData();
+      },
+      this.dataRefreshMinutes * 1000 * 60
+    );
   }
-  timer:any;
-  loadData():void{
+  timer: any;
+  loadData(): void {
     this.http.api.carbonTotal().subscribe({
-      next: (res) => {
-        if(res.code===0){
-          const data=res['data']||{};
-          Object.keys(data).forEach(key=>{
-            const index=this.data.findIndex(item=>item['key']==key)
-            if(index>-1){
-              this.data[index]['value']=String(data[key]);
+      next: res => {
+        if (res.code === 0) {
+          const data = res['data'] || {};
+          Object.keys(data).forEach(key => {
+            const index = this.data.findIndex(item => item['key'] == key);
+            if (index > -1) {
+              this.data[index]['value'] = String(data[key]);
             }
-          })
-          this.data=[...this.data];
+          });
+          this.data = [...this.data];
           this.cdr.detectChanges();
         }
       },
-      error: (err) => {
+      error: err => {
         console.error('请求失败：', err);
       }
-    })
+    });
   }
 
   public data: any[] = [
-    { key:'totalEnergy',iconSrc: 'logo1.png', title: '累计能耗(kW·h)', value: '180.50', color: '#5087EC' },
-    { key:'savedEnergy',iconSrc: 'logo4.png', title: '节能耗(kW·h)', value: '54.52', color: '#58A55C' },
-    { key:'totalCarbon',iconSrc: 'logo2.png', title: '碳排放总量(kg)', value: '141.69', color: '#5087EC' },
-    { key:'reducedCarbon',iconSrc: 'logo4.png', title: '减少碳排放(kg)', value: '42.8', color: '#58A55C' },
-    { key:'electricityCost',iconSrc: 'logo3.png', title: '电费(元)', value: '108.30', color: '#5087EC' },
-    { key:'savedCost',iconSrc: 'logo4.png', title: '节约费用(元)', value: '32.71', color: '#58A55C' }
+    { key: 'totalEnergy', iconSrc: 'logo1.png', title: '累计能耗(kW·h)', value: '180.50', color: '#5087EC' },
+    { key: 'savedEnergy', iconSrc: 'logo4.png', title: '节能耗(kW·h)', value: '54.52', color: '#58A55C' },
+    { key: 'totalCarbon', iconSrc: 'logo2.png', title: '碳排放总量(kg)', value: '141.69', color: '#5087EC' },
+    { key: 'reducedCarbon', iconSrc: 'logo4.png', title: '减少碳排放(kg)', value: '42.8', color: '#58A55C' },
+    { key: 'electricityCost', iconSrc: 'logo3.png', title: '电费(元)', value: '108.30', color: '#5087EC' },
+    { key: 'savedCost', iconSrc: 'logo4.png', title: '节约费用(元)', value: '32.71', color: '#58A55C' }
   ];
 }

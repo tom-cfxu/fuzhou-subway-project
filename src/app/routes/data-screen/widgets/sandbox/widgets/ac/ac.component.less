@@ -1,0 +1,37 @@
+/* stylelint-disable order/properties-order */
+/* stylelint-disable selector-class-pattern */
+:host {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  transform-origin: center center;
+
+  ::ng-deep {
+    .container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 50%;
+      cursor: pointer;
+
+      .ac {
+        pointer-events: auto;
+        transform-origin: center center;
+      }
+
+      .name {
+        position: absolute;
+        top: 34%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0 15px;
+        border: 1px solid rgb(43 123 225 / 100%);
+        border-radius: 4px;
+        font-size: 12px;
+        color: rgb(255 255 255 / 100%);
+        text-align: center;
+        white-space: nowrap;
+        background-color: rgb(60 146 200 / 100%);
+      }
+    }
+  }
+}

@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/order */
 /*
@@ -10,87 +9,36 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { Light1Component } from './widgets/light1/light1.component';
-import { Light2Component } from './widgets/light2/light2.component';
+import { LightComponent } from './widgets/light/light.component';
+import { DeviceService } from 'src/app/services/device.service';
+import { AcComponent } from './widgets/ac/ac.component';
 // import { MqttTotalService } from 'src/app/services/mqtt.service';
 
 @Component({
   selector: 'app-sandbox',
-  imports: [Light1Component, Light2Component],
+  imports: [LightComponent, AcComponent],
   template: `
     <div class="container">
       <div class="sandbox">
         <img style="z-index: 9;" class="map" src="../../../../../assets/tmp/home/bg_center.png" />
-        <app-light1
-          style="z-index: 98;left:230px;top:370px;"
-          lightName="检票区域照明设备"
-          [on]="lightData['001']"
-          [isControl]="true"
-          (changeOn)="changeLight(1, $event)"
-        />
-        <app-light1
-          style="z-index: 97;left:370px;top:447px;"
-          lightName="售票区域照明设备"
-          [on]="lightData['002']"
-          [isControl]="true"
-          (changeOn)="changeLight(2, $event)"
-        />
-        <app-light1
-          style="z-index: 96;left:470px;top:307px;"
-          lightName="站厅照明-设备1"
-          [on]="lightData['003']"
-          [isControl]="true"
-          (changeOn)="changeLight(2, $event)"
-        />
-        <app-light1
-          style="z-index: 95;left:650px;top:297px;"
-          lightName="站厅照明-设备2"
-          [on]="lightData['004']"
-          [isControl]="true"
-          (changeOn)="changeLight(2, $event)"
-        />
-        <app-light1
-          style="z-index: 94;left:820px;top:297px;"
-          lightName="站台照明-设备1"
-          [on]="lightData['005']"
-          [isControl]="true"
-          (changeOn)="changeLight(2, $event)"
-        />
-        <app-light1
-          style="z-index: 93;left:700px;top:447px;"
-          lightName="站台照明-设备2"
-          [on]="lightData['006']"
-          [isControl]="true"
-          (changeOn)="changeLight(2, $event)"
-        />
-
-        <app-light2
-          style="z-index: 99;left:120px;top:230px;"
-          [on]="lightData['007']"
-          [isControl]="true"
-          (changeOn)="changeLight(2, $event)"
-        />
-        <app-light2
-          style="z-index: 99;left:280px;top:230px;"
-          [on]="lightData['008']"
-          [isControl]="true"
-          (changeOn)="changeLight(2, $event)"
-        />
-        <app-light2
-          [rotate]="-90"
-          style="z-index: 99;left:-10px;top:270px;"
-          [on]="lightData['009']"
-          [isControl]="true"
-          (changeOn)="changeLight(2, $event)"
-        />
-
-        <div class="device-name" style="z-index: 99;left:200px;top:200px;">出入口通道空调-设备1</div>
-        <div class="device-name" style="z-index: 99;left:470px;top:200px;">出入口通道空调-设备2</div>
-        <div class="device-name" style="z-index: 99;left:410px;top:380px;">站厅空调-设备1</div>
-        <div class="device-name" style="z-index: 99;left:590px;top:380px;">站厅空调-设备2</div>
-
-        <div class="device-name2" style="z-index: 99;left:100px;top:150px;">出入口通道照明-设备1</div>
-        <div class="device-name2" style="z-index: 99;left:300px;top:150px;">出入口通道照明-设备2</div>
+        @for (item of light; track item.deviceKey) {
+          <app-light
+            [deviceKey]="item.deviceKey"
+            [style]="item.style"
+            [lightName]="item.deviceName"
+            [on]="item.deviceValue"
+            (changeOn)="changeLight($event)"
+          />
+        }
+        @for (item of air; track item.deviceKey) {
+          <app-ac
+            [deviceKey]="item.deviceKey"
+            [style]="item.style"
+            [name]="item.deviceName"
+            [power]="item.deviceValue"
+            (changePower)="changeAir($event)"
+          />
+        }
       </div>
     </div>
   `,
@@ -99,35 +47,137 @@ import { Light2Component } from './widgets/light2/light2.component';
 export class SandboxComponent implements OnInit, OnDestroy {
   // private readonly mqtt = inject(MqttTotalService);
   private readonly cdr = inject(ChangeDetectorRef);
-  e1: any;
 
-  lightData: any = {
-    '001': false,
-    '002': false,
-    '003': false,
-    '004': false,
-    '005': false,
-    '006': false,
-    '007': false,
-    '008': false,
-    '009': false
-  };
+  trackByDeviceKey(index: number, item: any): string {
+    // 返回唯一标识（deviceKey 是你的唯一值）
+    return item.deviceKey;
+  }
+  e1: any;
+  light: any[] = [
+    {
+      deviceKey: 'lamp001',
+      deviceName: 'A出入口通道-照明-1',
+      deviceType: 'lamp',
+      deviceValue: 0,
+      style: 'z-index: 999;left:100px;top:580px'
+    },
+    {
+      deviceKey: 'lamp002',
+      deviceName: 'A出入口通道-照明-2',
+      deviceType: 'lamp',
+      deviceValue: 0,
+      style: 'z-index: 999;left:100px;top:420px'
+    },
+    {
+      deviceKey: 'lamp003',
+      deviceName: 'B出入口通道-照明-1',
+      deviceType: 'lamp',
+      deviceValue: 0,
+      style: 'z-index: 98;right:-75px;top:580px'
+    },
+    {
+      deviceKey: 'lamp004',
+      deviceName: 'B出入口通道-照明-2',
+      deviceType: 'lamp',
+      deviceValue: 0,
+      style: 'z-index: 99;right:-75px;top:420px'
+    },
+    {
+      deviceKey: 'lamp005',
+      deviceName: '站台-照明-1',
+      deviceType: 'lamp',
+      deviceValue: 0,
+      style: 'z-index: 98;left:330px;top:450px'
+    },
+    {
+      deviceKey: 'lamp006',
+      deviceName: '站台-照明-2',
+      deviceType: 'lamp',
+      deviceValue: 0,
+      style: 'z-index: 98;right:180px;top:450px'
+    },
+    {
+      deviceKey: 'lamp007',
+      deviceName: '站厅-照明-1',
+      deviceType: 'lamp',
+      deviceValue: 0,
+      style: 'z-index: 98;left:330px;top:265px'
+    },
+    {
+      deviceKey: 'lamp008',
+      deviceName: '站厅-照明-2',
+      deviceType: 'lamp',
+      deviceValue: 0,
+      style: 'z-index: 98;right:175px;top:265px'
+    }
+  ];
+
+  air: any[] = [
+    {
+      deviceKey: 'ac001',
+      deviceName: 'A出入口通道-空调-1',
+      deviceType: 'aircondition',
+      deviceValue: 1,
+      style: 'z-index: 97;left:100px;top:280px'
+    },
+    {
+      deviceKey: 'ac002',
+      deviceName: 'B出入口通道-空调-1',
+      deviceType: 'aircondition',
+      deviceValue: 1,
+      style: 'z-index: 97;right:-75px;top:280px'
+    },
+    {
+      deviceKey: 'ac003',
+      deviceName: '站厅-空调-1',
+      deviceType: 'aircondition',
+      deviceValue: 1,
+      style: 'z-index: 200;left:420px;top:180px'
+    },
+    {
+      deviceKey: 'ac004',
+      deviceName: '站台-空调-1',
+      deviceType: 'aircondition',
+      deviceValue: 1,
+      style: 'z-index: 200;left:460px;top:430px'
+    }
+  ];
 
   ngOnDestroy(): void {
     if (this.e1) {
       this.e1.unsubscribe();
     }
   }
+
+  private device = inject(DeviceService);
+
   ngOnInit(): void {
-    // this.e1 = this.mqtt.lightEvent.subscribe((data: any) => {
-    //   // console.log('lightEvent2', data);
-    //   const { deviceId, deviceValue } = data;
-    //   this.lightData[deviceId] = deviceValue;
-    //   // console.log('Updated lightData:', this.lightData);
-    //   this.cdr.detectChanges();
-    // });
+    this.e1 = this.device.deviceUpdateEvent.subscribe((data: any) => {
+      const l = data.filter((d: any) => d.deviceType === 'lamp');
+      const a = data.filter((d: any) => d.deviceType === 'aircondition');
+      this.light.forEach((item: any) => {
+        item.deviceValue = l.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
+      });
+      this.air.forEach((item: any) => {
+        item.deviceValue = a.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
+      });
+      this.light = [...this.light];
+      this.air = [...this.air];
+      // console.log('更新light', this.light);
+      // console.log('更新air', this.air);
+      this.cdr.detectChanges();
+    });
   }
-  changeLight(index: number, status: boolean): void {
-    console.log(index, status);
+  changeLight({ deviceKey, deviceValue }: { deviceKey: string; deviceValue: number }): void {
+    // console.log(deviceKey, deviceValue);
+    this.device.deviceControl('lamp', deviceKey, deviceValue).subscribe((res: boolean) => {
+      console.log('控制照明结果', res);
+    });
+  }
+  changeAir({ deviceKey, deviceValue }: { deviceKey: string; deviceValue: number }): void {
+    // console.log(deviceKey, deviceValue);
+    this.device.deviceControl('ac', deviceKey, deviceValue).subscribe((res: boolean) => {
+      console.log('控制空调结果', res);
+    });
   }
 }

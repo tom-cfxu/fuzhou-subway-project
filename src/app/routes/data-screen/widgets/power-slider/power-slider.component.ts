@@ -17,16 +17,8 @@ import { NzSliderModule } from 'ng-zorro-antd/slider';
     <div class="power-selector-container">
       <h2 class="title">功率调节</h2>
       <div class="slider-wrapper">
-        <nz-slider
-          nzVertical
-          [nzMin]="1"
-          [nzMax]="3"
-          [nzStep]="1"
-          [nzMarks]="marks"
-          nzTooltipVisible="never"
-          [(ngModel)]="powerLevel"
-          (nzOnAfterChange)="onPowerChange($event)"
-        />
+        <nz-slider nzVertical [nzMin]="1" [nzMax]="3" [nzStep]="1" [nzMarks]="marks" nzTooltipVisible="never" [(ngModel)]="powerLevel" />
+        <!-- (nzOnAfterChange)="onPowerChange($event)" -->
       </div>
     </div>
   `,

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @angular-eslint/no-empty-lifecycle-method */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /*
  * @Author: tom-cfxu cfxu963852741@qq.com
@@ -10,8 +10,11 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
+// eslint-disable-next-line import/order
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 // import { MqttTotalService } from 'src/app/services/mqtt.service';
+
+import { DeviceService } from 'src/app/services/device.service';
 
 import { DeviceItemComponent } from '../device-item/device-item.component';
 import { ManyiduComponent } from '../manyidu/manyidu.component';
@@ -47,7 +50,26 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
 
   e1: any;
   e2: any;
+
+  private readonly device = inject(DeviceService);
   ngOnInit(): void {
+    this.e1 = this.device.deviceUpdateEvent.subscribe((data: any) => {
+      const l = data.filter((d: any) => d.deviceType === 'lamp');
+      const a = data.filter((d: any) => d.deviceType === 'aircondition');
+      this.device_light.forEach((item: any) => {
+        item.status = l.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
+        // item.value = l.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
+      });
+      this.device_air.forEach((item: any) => {
+        item.status = a.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
+      });
+      console.log('设备数据更新了', data);
+      this.device_light = [...this.device_light];
+      this.device_air = [...this.device_air];
+      console.log('更新light', this.device_light);
+      console.log('更新air', this.device_air);
+      this.cdr.detectChanges();
+    });
     // this.e1 = this.mqtt.lightEvent.subscribe((data: any) => {
     //   console.log('lightEvent', data);
     // });
@@ -58,7 +80,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
 
   device_light: any[] = [
     {
-      title: '出入口通道照明-设备1',
+      deviceKey: 'lamp001',
+      deviceName: 'A出入口通道-照明-1',
+      deviceType: 'lamp',
+      title: 'A出入口通道-照明-1',
       status: 1,
       stateOject: { 1: '开启中', 0: '关闭中' },
       subtitle: '累计碳排放(kg)',
@@ -68,7 +93,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '出入口通道照明-设备2',
+      deviceKey: 'lamp002',
+      deviceName: 'A出入口通道-照明-2',
+      deviceType: 'lamp',
+      title: 'A出入口通道-照明-2',
       status: 0,
       stateOject: { 1: '开启中', 0: '关闭中' },
       subtitle: '累计碳排放(kg)',
@@ -78,7 +106,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '站厅照明-设备1',
+      deviceKey: 'lamp003',
+      deviceName: 'B出入口通道-照明-1',
+      deviceType: 'lamp',
+      title: 'B出入口通道-照明-1',
       status: 1,
       stateOject: { 1: '开启中', 0: '关闭中' },
       subtitle: '累计碳排放(kg)',
@@ -88,7 +119,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '站厅照明-设备2',
+      deviceKey: 'lamp004',
+      deviceName: 'B出入口通道-照明-2',
+      deviceType: 'lamp',
+      title: 'B出入口通道-照明-2',
       status: 1,
       stateOject: { 1: '开启中', 0: '关闭中' },
       subtitle: '累计碳排放(kg)',
@@ -98,7 +132,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '站台照明-设备1',
+      deviceKey: 'lamp005',
+      deviceName: '站台-照明-1',
+      deviceType: 'lamp',
+      title: '站台-照明-1',
       status: 1,
       stateOject: { 1: '开启中', 0: '关闭中' },
       subtitle: '累计碳排放(kg)',
@@ -108,7 +145,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '站台照明-设备2',
+      deviceKey: 'lamp006',
+      deviceName: '站台-照明-2',
+      deviceType: 'lamp',
+      title: '站台-照明-2',
       status: 1,
       stateOject: { 1: '开启中', 0: '关闭中' },
       subtitle: '累计碳排放(kg)',
@@ -118,7 +158,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '售票区域照明设备',
+      deviceKey: 'lamp007',
+      deviceName: '站厅-照明-1',
+      deviceType: 'lamp',
+      title: '站厅-照明-1',
       status: 1,
       stateOject: { 1: '开启中', 0: '关闭中' },
       subtitle: '累计碳排放(kg)',
@@ -128,7 +171,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '检票区域照明设备',
+      deviceKey: 'lamp008',
+      deviceName: '站厅-照明-2',
+      deviceType: 'lamp',
+      title: '站厅-照明-2',
       status: 1,
       stateOject: { 1: '开启中', 0: '关闭中' },
       subtitle: '累计碳排放(kg)',
@@ -141,7 +187,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
 
   device_air: any[] = [
     {
-      title: '出入口通道空调-设备1',
+      deviceKey: 'ac001',
+      deviceName: 'A出入口通道-空调-1',
+      deviceType: 'aircondition',
+      title: 'A出入口通道-空调-1',
       status: 1,
       stateOject: { 1: '低功率', 2: '正常', 3: '高功率' },
       subtitle: '累计碳排放(kg)',
@@ -151,7 +200,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '出入口通道空调-设备2',
+      deviceKey: 'ac002',
+      deviceName: 'B出入口通道-空调-1',
+      deviceType: 'aircondition',
+      title: 'B出入口通道-空调-1',
       status: 1,
       stateOject: { 1: '低功率', 2: '正常', 3: '高功率' },
       subtitle: '累计碳排放(kg)',
@@ -161,7 +213,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '站厅空调-设备1',
+      deviceKey: 'ac003',
+      deviceName: '站厅-空调-1',
+      deviceType: 'aircondition',
+      title: '站厅-空调-1',
       status: 2,
       stateOject: { 1: '低功率', 2: '正常', 3: '高功率' },
       subtitle: '累计碳排放(kg)',
@@ -171,7 +226,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     },
     {
-      title: '站厅空调-设备2',
+      deviceKey: 'ac004',
+      deviceName: '站台-空调-1',
+      deviceType: 'aircondition',
+      title: '站台-空调-1',
       status: 2,
       stateOject: { 1: '低功率', 2: '正常', 3: '高功率' },
       subtitle: '累计碳排放(kg)',
@@ -183,12 +241,29 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
   ];
 
   changeLight(item: any): void {
-    console.log('item', item);
+    // console.log('item', item);
+    const { deviceKey, deviceName, status } = item;
+    this.modal.create({
+      nzTitle: `${(status ? '是否关闭 ' : '是否开启 ') + deviceName} ？`,
+      nzClassName: 'energy-modal-confirm',
+      nzCentered: true,
+      nzMaskClosable: true,
+      nzOnOk: () => {
+        // this.on = Number(!this.on);
+        setTimeout(() => {
+          this.device.deviceControl('lamp', deviceKey, !status).subscribe((res: boolean) => {
+            console.log('控制照明结果', res);
+            // this.cdr.detectChanges();
+          });
+        });
+      }
+    });
   }
 
   changePower(item: any): void {
     // console.log('item',item);
-    const index = item['index'];
+    // const index = item['index'];
+    const { deviceKey } = item;
     this.modal.create({
       nzTitle: item.title,
       nzClassName: 'energy-modal',
@@ -199,11 +274,14 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       // componentParams
       // nzViewContainerRef: this.viewContainerRef,
       nzCentered: true,
-      nzMaskClosable: false,
+      nzMaskClosable: true,
       nzOnOk: componentInstance => {
-        this.device_air[index]['status'] = componentInstance.powerLevel;
-        this.device_air = [...this.device_air];
-        this.cdr.detectChanges();
+        // this.device_air[index]['status'] = componentInstance.powerLevel;
+        // this.device_air = [...this.device_air];
+        this.device.deviceControl('ac', deviceKey, componentInstance.powerLevel).subscribe((res: boolean) => {
+          console.log('控制空调结果', res);
+          // this.cdr.detectChanges();
+        });
         // console.log('ss',componentInstance.powerLevel);
       }
     });
