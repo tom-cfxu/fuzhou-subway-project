@@ -5,13 +5,12 @@
     "host":"http://123.56.51.64:9090",
     "dataRefreshMinutes":20,
     "mqtt":{
-      "host": "localhost",
+      "host": "123.56.51.64",
       "protocol": "ws",
       "port": 8083,
       "path": "/mqtt",
-      "clientId": "",
-      "username": "",
-      "password": "",
+      "username": "ymdreams",
+      "password": "ymdreams@2026",
       "keepalive": 60,
       "reconnectPeriod": 1000,
       "clean": true

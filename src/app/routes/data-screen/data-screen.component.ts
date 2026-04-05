@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Component, inject, OnInit } from '@angular/core';
 import { DeviceService } from 'src/app/services/device.service';
+import { MqttDynamicService } from 'src/app/services/mqtt-dynamic.service';
 
 import { BoxCeterControlComponent } from './widgets/box-control/box-control.component';
 import { Box1Component } from './widgets/box1/box1.component';
@@ -59,8 +60,10 @@ import { DataTitleComponent } from './widgets/title/title.component';
 })
 export class DataScreenComponent implements OnInit {
   private device = inject(DeviceService);
+  private mqtt = inject(MqttDynamicService);
 
   ngOnInit(): void {
     this.device.initDeviceTotal();
+    this.mqtt.connectServer();
   }
 }

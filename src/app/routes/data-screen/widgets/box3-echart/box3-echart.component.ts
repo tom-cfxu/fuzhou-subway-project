@@ -153,6 +153,9 @@ export class Box3EchartComponent implements AfterViewInit, OnDestroy {
         },
         error: () => {
           this.isSpinning = false;
+        },
+        complete: () => {
+          this.isSpinning = false;
         }
       });
     });

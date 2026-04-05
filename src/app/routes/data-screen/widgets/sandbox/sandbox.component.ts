@@ -12,6 +12,7 @@ import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angula
 import { LightComponent } from './widgets/light/light.component';
 import { DeviceService } from 'src/app/services/device.service';
 import { AcComponent } from './widgets/ac/ac.component';
+import { MqttDynamicService } from 'src/app/services/mqtt-dynamic.service';
 // import { MqttTotalService } from 'src/app/services/mqtt.service';
 
 @Component({
@@ -53,6 +54,8 @@ export class SandboxComponent implements OnInit, OnDestroy {
     return item.deviceKey;
   }
   e1: any;
+  lightEvent: any;
+  airEvent: any;
   light: any[] = [
     {
       deviceKey: 'lamp001',
@@ -118,28 +121,28 @@ export class SandboxComponent implements OnInit, OnDestroy {
       deviceName: 'A出入口通道-空调-1',
       deviceType: 'aircondition',
       deviceValue: 1,
-      style: 'z-index: 97;left:100px;top:280px'
+      style: 'z-index: 90;left:100px;top:280px'
     },
     {
       deviceKey: 'ac002',
       deviceName: 'B出入口通道-空调-1',
       deviceType: 'aircondition',
       deviceValue: 1,
-      style: 'z-index: 97;right:-75px;top:280px'
+      style: 'z-index: 90;right:-75px;top:280px'
     },
     {
       deviceKey: 'ac003',
       deviceName: '站厅-空调-1',
       deviceType: 'aircondition',
       deviceValue: 1,
-      style: 'z-index: 200;left:420px;top:180px'
+      style: 'z-index: 90;left:420px;top:180px'
     },
     {
       deviceKey: 'ac004',
       deviceName: '站台-空调-1',
       deviceType: 'aircondition',
       deviceValue: 1,
-      style: 'z-index: 200;left:460px;top:430px'
+      style: 'z-index: 90;left:460px;top:430px'
     }
   ];
 
@@ -147,9 +150,16 @@ export class SandboxComponent implements OnInit, OnDestroy {
     if (this.e1) {
       this.e1.unsubscribe();
     }
+    if (this.lightEvent) {
+      this.lightEvent.unsubscribe();
+    }
+    if (this.airEvent) {
+      this.airEvent.unsubscribe();
+    }
   }
 
   private device = inject(DeviceService);
+  private mqtt = inject(MqttDynamicService);
 
   ngOnInit(): void {
     this.e1 = this.device.deviceUpdateEvent.subscribe((data: any) => {
@@ -165,6 +175,21 @@ export class SandboxComponent implements OnInit, OnDestroy {
       this.air = [...this.air];
       // console.log('更新light', this.light);
       // console.log('更新air', this.air);
+      this.cdr.detectChanges();
+    });
+    this.lightEvent = this.mqtt.lightEvent.subscribe((data: any) => {
+      // console.log('lightEvent', data);
+      const index = this.light.findIndex((item: any) => item.deviceKey === data.deviceId);
+      this.light[index].deviceValue = data.deviceValue;
+      this.light = [...this.light];
+      this.cdr.detectChanges();
+      // const index = this.light.findIndex(item => item.deviceKey === data.deviceKey);
+    });
+    this.airEvent = this.mqtt.airEvent.subscribe((data: any) => {
+      // console.log('airEvent', data);
+      const index = this.air.findIndex((item: any) => item.deviceKey === data.deviceId);
+      this.air[index].deviceValue = data.deviceValue;
+      this.air = [...this.air];
       this.cdr.detectChanges();
     });
   }

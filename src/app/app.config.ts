@@ -22,11 +22,11 @@ import { CELL_WIDGETS, SF_WIDGETS, ST_WIDGETS } from '@shared';
 import { zhCN as dateLang } from 'date-fns/locale';
 import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
 import { zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
+// import { MQTT_SERVICE_OPTIONS, MqttService } from 'ngx-mqtt';/
 
 import { ICONS } from '../style-icons';
 import { ICONS_AUTO } from '../style-icons-auto';
 import { routes } from './routes/routes';
-
 const defaultLang: AlainProvideLang = {
   abbr: 'zh-CN',
   ng: ngLang,
@@ -65,6 +65,13 @@ const providers: Array<Provider | EnvironmentProviders> = [
   provideSFConfig({ widgets: SF_WIDGETS }),
   provideStartup(),
   ...(environment.providers || [])
+  // MqttService,
+  // {
+  //   provide: MQTT_SERVICE_OPTIONS,
+  //   useValue: {
+  //     connectOnCreate: false // 不自动连接，手动控制
+  //   }
+  // }
 ];
 
 // If you use `@delon/auth` to refresh the token, additional registration `provideBindAuthRefresh` is required

@@ -29,7 +29,7 @@ export class LightComponent {
 
   @Input() deviceKey = '001';
   @Input() lightName = '照明';
-  @Input() width = '280px';
+  @Input() width = '220px';
 
   @Output() readonly changeOn = new EventEmitter<any>();
 

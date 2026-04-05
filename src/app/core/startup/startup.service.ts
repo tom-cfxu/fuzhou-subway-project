@@ -10,12 +10,12 @@ import { HttpClient, HttpContext } from '@angular/common/http';
 import { EnvironmentProviders, Injectable, Provider, inject, provideAppInitializer } from '@angular/core';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
+import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { _HttpClient, ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { Observable, zip, catchError, map } from 'rxjs';
 
 import { I18NService } from '../i18n/i18n.service';
-import { ALLOW_ANONYMOUS } from '@delon/auth';
 
 /**
  * Used for application startup
@@ -71,26 +71,29 @@ export class StartupService {
         // 设置页面标题的后缀
         this.titleService.default = '';
         this.titleService.suffix = appData.app.name;
-      }),
+      })
     );
   }
 
-  loadHost():void{
-    this.httpClient.get('/assets/tmp/api.json', {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
-    }).subscribe({
-      next: (res:any) => {
-        if(res['code']===0){
-          const host:string =res.data['host'];
-          const dataRefreshMinutes:string =res.data['dataRefreshMinutes'];
-          localStorage.setItem('host',host);
-          localStorage.setItem('dataRefreshMinutes',dataRefreshMinutes);
+  loadHost(): void {
+    this.httpClient
+      .get('/assets/tmp/api.json', {
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      })
+      .subscribe({
+        next: (res: any) => {
+          if (res['code'] === 0) {
+            const host: string = res.data['host'];
+            const dataRefreshMinutes: string = res.data['dataRefreshMinutes'];
+            const mqtt: any = res.data['mqtt'];
+            localStorage.setItem('host', host);
+            localStorage.setItem('dataRefreshMinutes', dataRefreshMinutes);
+            localStorage.setItem('mqtt', JSON.stringify(mqtt));
+          }
+        },
+        error: err => {
+          console.error('请求失败：', err);
         }
-      },
-      error: (err) => {
-        console.error('请求失败：', err);
-      }
-    });
-
+      });
   }
 }

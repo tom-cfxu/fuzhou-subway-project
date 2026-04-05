@@ -48,7 +48,9 @@
               "ajv-formats",
               "mockjs",
               "file-saver",
-              "extend"
+              "extend",
+              "mqtt-browser",
+              "mqtt"
             ],
             "inlineStyleLanguage": "less",
             "stylePreprocessorOptions": {

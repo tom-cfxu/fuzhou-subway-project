@@ -38,7 +38,7 @@ export class AcComponent {
   @Input() deviceKey = '001';
 
   @Input() name = '空调';
-  @Input() width = '280px';
+  @Input() width = '220px';
   @Input() isControl = false;
   @Output() readonly changePower = new EventEmitter<any>();
   private readonly cdr = inject(ChangeDetectorRef);

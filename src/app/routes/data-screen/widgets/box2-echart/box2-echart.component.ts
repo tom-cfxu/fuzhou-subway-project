@@ -212,6 +212,9 @@ export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         error: () => {
           this.isSpinning = false;
+        },
+        complete: () => {
+          this.isSpinning = false;
         }
       });
     });

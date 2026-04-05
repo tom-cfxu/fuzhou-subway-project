@@ -15,6 +15,7 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 // import { MqttTotalService } from 'src/app/services/mqtt.service';
 
 import { DeviceService } from 'src/app/services/device.service';
+import { MqttDynamicService } from 'src/app/services/mqtt-dynamic.service';
 
 import { DeviceItemComponent } from '../device-item/device-item.component';
 import { ManyiduComponent } from '../manyidu/manyidu.component';
@@ -43,14 +44,19 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
     if (this.e1) {
       this.e1.unsubscribe();
     }
-    if (this.e2) {
-      this.e2.unsubscribe();
+    if (this.lightEvent) {
+      this.lightEvent.unsubscribe();
+    }
+    if (this.airEvent) {
+      this.airEvent.unsubscribe();
     }
   }
 
   e1: any;
-  e2: any;
+  lightEvent: any;
+  airEvent: any;
 
+  private mqtt = inject(MqttDynamicService);
   private readonly device = inject(DeviceService);
   ngOnInit(): void {
     this.e1 = this.device.deviceUpdateEvent.subscribe((data: any) => {
@@ -63,19 +69,26 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       this.device_air.forEach((item: any) => {
         item.status = a.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
       });
-      console.log('设备数据更新了', data);
       this.device_light = [...this.device_light];
       this.device_air = [...this.device_air];
-      console.log('更新light', this.device_light);
-      console.log('更新air', this.device_air);
       this.cdr.detectChanges();
     });
-    // this.e1 = this.mqtt.lightEvent.subscribe((data: any) => {
-    //   console.log('lightEvent', data);
-    // });
-    // this.e2 = this.mqtt.airEvent.subscribe((data: any) => {
-    //   console.log('airEvent', data);
-    // });
+
+    this.lightEvent = this.mqtt.lightEvent.subscribe((data: any) => {
+      // console.log('lightEvent', data);
+      const index = this.device_light.findIndex((item: any) => item.deviceKey === data.deviceId);
+      this.device_light[index].status = data.deviceValue;
+      this.device_light = [...this.device_light];
+      this.cdr.detectChanges();
+      // const index = this.light.findIndex(item => item.deviceKey === data.deviceKey);
+    });
+    this.airEvent = this.mqtt.airEvent.subscribe((data: any) => {
+      // console.log('airEvent', data);
+      const index = this.device_air.findIndex((item: any) => item.deviceKey === data.deviceId);
+      this.device_air[index].status = data.deviceValue;
+      this.device_air = [...this.device_air];
+      this.cdr.detectChanges();
+    });
   }
 
   device_light: any[] = [
@@ -251,7 +264,7 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       nzOnOk: () => {
         // this.on = Number(!this.on);
         setTimeout(() => {
-          this.device.deviceControl('lamp', deviceKey, !status).subscribe((res: boolean) => {
+          this.device.deviceControl('lamp', deviceKey, Number(!status)).subscribe((res: boolean) => {
             console.log('控制照明结果', res);
             // this.cdr.detectChanges();
           });
