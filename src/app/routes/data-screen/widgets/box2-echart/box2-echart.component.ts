@@ -11,40 +11,40 @@ import { HttpService } from 'src/app/services/http.service';
   selector: 'app-box2-echart',
   imports: [FormsModule, NzCheckboxModule, NzGridModule, ChartEChartsModule, NzSpinModule],
   template: `
-    <nz-spin [nzSpinning]="isSpinning">
-      <div class="main">
-        <nz-checkbox-group [(ngModel)]="value" [style.width.%]="22" (ngModelChange)="changeRadio($event)">
-          <nz-row>
-            <nz-col nzSpan="24">
-              <label nz-checkbox nzValue="车站空调系统">车站空调系统</label>
-            </nz-col>
-            <nz-col nzSpan="24">
-              <label nz-checkbox nzValue="站台门系统">站台门系统</label>
-            </nz-col>
-            <nz-col nzSpan="24">
-              <label nz-checkbox nzValue="环控系统">环控系统</label>
-            </nz-col>
-            <nz-col nzSpan="24">
-              <label nz-checkbox nzValue="照明系统">照明系统</label>
-            </nz-col>
-            <nz-col nzSpan="24">
-              <label nz-checkbox nzValue="变电系统">变电系统</label>
-            </nz-col>
-            <nz-col nzSpan="24">
-              <label nz-checkbox nzValue="电梯系统">电梯系统</label>
-            </nz-col>
-            <nz-col nzSpan="24">
-              <label nz-checkbox nzValue="AFC系统">AFC系统</label>
-            </nz-col>
-          </nz-row>
-        </nz-checkbox-group>
+    <!-- <nz-spin [nzSpinning]="isSpinning"> -->
+    <div class="main">
+      <nz-checkbox-group [(ngModel)]="value" [style.width.%]="22" (ngModelChange)="changeRadio($event)">
+        <nz-row>
+          <nz-col nzSpan="24">
+            <label nz-checkbox nzValue="车站空调系统">车站空调系统</label>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <label nz-checkbox nzValue="站台门系统">站台门系统</label>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <label nz-checkbox nzValue="环控系统">环控系统</label>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <label nz-checkbox nzValue="照明系统">照明系统</label>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <label nz-checkbox nzValue="变电系统">变电系统</label>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <label nz-checkbox nzValue="电梯系统">电梯系统</label>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <label nz-checkbox nzValue="AFC系统">AFC系统</label>
+          </nz-col>
+        </nz-row>
+      </nz-checkbox-group>
 
-        <div [style.width.%]="55">
-          <chart-echarts class="echart" height="100%" [option]="option" theme="dark" />
-          <!--  (events)="handleEvents($event)"  -->
-        </div>
+      <div [style.width.px]="300">
+        <chart-echarts class="echart" width="100%" height="100%" [option]="option" theme="dark" />
+        <!--  (events)="handleEvents($event)"  -->
       </div>
-    </nz-spin>
+    </div>
+    <!-- </nz-spin> -->
   `,
   styleUrl: './box2-echart.component.less'
 })
@@ -61,6 +61,7 @@ export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
   timer: any;
   private dataRefreshMinutes = Number(localStorage.getItem('dataRefreshMinutes') || '20');
   ngOnInit(): void {
+    this.cdr.detectChanges();
     this.changeRadio(this.value);
     this.timer = setInterval(
       () => {
@@ -159,6 +160,50 @@ export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
         fontFamily: 'PingFangSC-Regular'
       }
     },
+    dataZoom: [
+      // 1. 外部滑动条（slider）：可视化拖拽
+      {
+        type: 'slider',
+        xAxisIndex: 0,
+        start: 0,
+        end: 100,
+        height: 22,
+        bottom: 10,
+
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        fillerColor: 'rgba(74, 136, 244, 0.12)',
+        borderColor: 'rgba(74, 136, 244, 0.15)',
+        borderWidth: 1,
+
+        handleSize: '70%',
+        handleStyle: {
+          color: 'rgba(74, 136, 244, 0.7)',
+          borderColor: 'rgba(255,255,255,0.3)',
+          borderWidth: 1,
+          shadowBlur: 4,
+          shadowColor: 'rgba(74, 136, 244, 0.15)'
+        },
+
+        textStyle: {
+          color: '#fff',
+          fontSize: 11
+        },
+
+        emphasis: {
+          handleStyle: {
+            color: '#4a88f4',
+            borderColor: '#fff',
+            shadowBlur: 6,
+            shadowColor: 'rgba(74, 136, 244, 0.2)'
+          }
+        }
+      },
+      // 2. 内部缩放（inside）：鼠标滚轮/拖拽
+      {
+        type: 'inside',
+        xAxisIndex: 0
+      }
+    ],
     legend: {
       data: ['照明系统碳排放', '车站空调碳排放'],
       top: 10,
@@ -243,7 +288,7 @@ export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
           });
           obj[value[index]] = keylist.sort((a: any, b: any) => a['updateTime'] - b['updateTime']);
         });
-        // console.log('obj',obj);
+        console.log('obj', obj);
         const newSeries = Object.keys(obj).map(name => {
           return {
             name: `${name}碳排放`,
@@ -270,12 +315,13 @@ export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
                 ]
               }
             },
-            data: obj[name].map((item: any) => item['trendValue']) //new Array(11).fill(0).map(() => Math.floor(Math.random() * 200) + 20)
+            data: obj[name].filter((e: any) => this.isTimeBeforeNow(e['updateTime'])).map((item: any) => item['trendValue']) //new Array(11).fill(0).map(() => Math.floor(Math.random() * 200) + 20)
           };
         });
         const legendData = value.map(name => `${name}碳排放`);
 
-        // console.log(newSeries, legendData);
+        console.log('newSeries', newSeries);
+        // console.log('legendData', legendData);
         this.option['series'] = newSeries;
         this.option['legend'] = {
           data: legendData,
@@ -286,8 +332,11 @@ export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
           itemWidth: 12,
           itemHeight: 8
         };
+        console.log('ss', Object.values(obj));
         if (Object.values(obj).length > 0) {
-          (this.option['xAxis'] as any)['data'] = ((Object.values(obj)[0] || []) as any[]).map((e: any) => e['time']);
+          (this.option['xAxis'] as any)['data'] = ((Object.values(obj)[0] || []) as any[])
+            .filter((e: any) => this.isTimeBeforeNow(e['updateTime']))
+            .map((e: any) => e['time']);
         }
         this.option = { ...this.option };
         this.cdr.detectChanges();
@@ -295,6 +344,17 @@ export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
         console.error(err);
       }
     });
+  }
+
+  isTimeBeforeNow(timeStr: any): boolean {
+    // 把目标时间转成今天的时间（只保留时分秒）
+    const r = moment(timeStr).format('HH:mm:ss');
+    const target = moment(r, 'HH:mm:ss');
+    // 当前时间（只保留时分秒）
+    const now = moment();
+
+    // 只比较时间部分
+    return target.isBefore(now, 'second');
   }
 
   // handleEvents(e: ChartEChartsEvent): void {

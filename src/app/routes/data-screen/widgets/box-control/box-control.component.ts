@@ -5,7 +5,9 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { DeviceService } from 'src/app/services/device.service';
 
+import { EvaluationErrorComponent } from '../evaluation-error/evaluation-error.component';
 import { EvaluationResultsComponent } from '../evaluation-results/evaluation-results.component';
 @Component({
   selector: 'app-box-control',
@@ -39,18 +41,18 @@ import { EvaluationResultsComponent } from '../evaluation-results/evaluation-res
   `
 })
 export class BoxCeterControlComponent implements OnInit, OnDestroy {
-  // private readonly mqtt = inject(MqttTotalService);
   private readonly modal = inject(NzModalService);
-
+  private readonly device = inject(DeviceService);
   private readonly cdr = inject(ChangeDetectorRef);
-  // constructor(private modal: NzModalService) {}
   ngOnInit(): void {
-    // this.e1 = this.mqtt.keliuEvent.subscribe((data: any) => {
-    //   console.log('keliuEvent', data);
-    // });
-    // this.e2 = this.mqtt.modeEvent.subscribe((data: any) => {
-    //   console.log('modeEvent', data);
-    // });
+    this.e1 = this.device.deviceUpdateEvent.subscribe((data: any) => {
+      this.totalData = data;
+      this.level = data.find((d: any) => d.deviceType === 'footfall')?.deviceValue || 0;
+      this.deviceId_footfall = data.find((d: any) => d.deviceType === 'footfall')?.deviceKey || 'footfall';
+      this.mode = data.find((d: any) => d.deviceType === 'emc')?.deviceValue || 0;
+      this.deviceId_emc = data.find((d: any) => d.deviceType === 'emc')?.deviceKey || 'emc';
+      this.cdr.detectChanges();
+    });
   }
   ngOnDestroy(): void {
     // throw new Error('Method not implemented.');
@@ -58,6 +60,11 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
 
   e1: any;
   e2: any;
+
+  totalData: any = {};
+
+  deviceId_emc = '';
+  deviceId_footfall = '';
 
   mode = 1;
   level = 0;
@@ -86,27 +93,70 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
       color: '#f57931'
     }
   };
+  evaluateModal(type: 'energy' | 'confirm' | 'error', nzTitle?: string, result?: number): void {
+    if (type === 'energy') {
+      if (result === 4) {
+        this.evaluateModal('error');
+        return;
+      }
+      this.modal.create({
+        nzContent: EvaluationResultsComponent,
+        nzClassName: 'empty-modal',
+        nzMaskClosable: true,
+        nzWidth: 800,
+        nzCentered: true,
+        nzData: {
+          result
+        }
+      });
+    } else if (type === 'confirm') {
+      this.modal.create({
+        nzTitle,
+        nzClassName: 'energy-modal-confirm',
+        nzCentered: true,
+        nzCancelText: null,
+        nzMaskClosable: false
+      });
+    } else if (type === 'error') {
+      this.modal.create({
+        nzContent: EvaluationErrorComponent,
+        nzClassName: 'error-modal',
+        nzMaskClosable: true,
+        nzWidth: 700,
+        nzCentered: true
+      });
+    }
+  }
 
   evaluate() {
-    this.modal.create({
-      nzContent: EvaluationResultsComponent,
-      nzClassName: 'empty-modal',
-      nzMaskClosable: true,
-      nzWidth: 800,
-      nzData: {
-        result: 2
+    if (this.mode === 0) {
+      this.evaluateModal('confirm', '当前处于节能模式，请切换到手动模式再进行评估');
+      return;
+    }
+    if (this.level == 1) {
+      const l = this.device.deviceTotalList.filter((d: any) => d.deviceType === 'lamp').every((item: any) => item.deviceValue === 1);
+      const a = this.device.deviceTotalList
+        .filter((d: any) => d.deviceType === 'aircondition')
+        .every((item: any) => item.deviceValue === 3);
+      if (l && a) {
+        this.evaluateModal('confirm', '当前处于高客流模式，请切换到手动模式再进行评估');
+      } else {
+        this.evaluateModal('error');
       }
-    });
+    } else {
+      this.evaluateModal('energy', '', this.device.energyAssessment_result);
+    }
   }
 
   reset() {
-    this.level = 0;
-    this.mode = 1;
-    this.cdr.detectChanges();
+    // this.level = 0;
+    // this.mode = 1;
+    // this.cdr.detectChanges();
   }
   levelChange() {
     this.level = Number(!this.level);
     this.cdr.detectChanges();
+    this.device.deviceControl('footfall', this.deviceId_footfall, this.level).subscribe();
   }
   changeMode(): void {
     this.modal.create({
@@ -116,6 +166,7 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
       nzMaskClosable: false,
       nzOnOk: () => {
         this.mode = Number(!this.mode);
+        this.device.deviceControl('emc', this.deviceId_emc, this.mode).subscribe();
         this.cdr.detectChanges();
       }
     });

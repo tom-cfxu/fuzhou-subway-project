@@ -1,0 +1,43 @@
+/* stylelint-disable CssSyntaxError */
+/* stylelint-disable rule-empty-line-before */
+/* stylelint-disable color-function-notation */
+/* stylelint-disable font-family-no-missing-generic-family-keyword */
+/* stylelint-disable order/properties-order */
+:host {
+  ::ng-deep {
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: 500px;
+      background-color: rgb(230 230 230 / 100%);
+      border-radius: 20px;
+    }
+    .error {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .img {
+        width: 200px;
+        margin-bottom: 60px;
+      }
+    }
+  }
+
+  .message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    p {
+      color: rgb(245 121 49/ 100%);
+      font-size: 45px;
+      text-align: center;
+      font-family: YSBiaoTiHei-regular;
+    }
+  }
+}

@@ -12,6 +12,8 @@ export class MqttDynamicService implements OnDestroy {
   public message$ = new Subject<{ topic: string; payload: string }>();
   public connected$ = new Subject<boolean>();
 
+  public totalEvent = new EventEmitter<any>();
+
   public lightEvent = new EventEmitter<any>();
   public airEvent = new EventEmitter<any>();
   public footfallEvent = new EventEmitter<any>();
@@ -21,9 +23,9 @@ export class MqttDynamicService implements OnDestroy {
     this.disconnect();
 
     const config = JSON.parse(localStorage.getItem('mqtt') || '{}') as any;
+
     const clientId = `angular17_${Math.random().toString(16).slice(2, 10)}`;
 
-    // 浏览器必须用 ws/wss 协议
     const url = `ws://${config.host}:${config.port}${config.path || '/mqtt'}`;
 
     const options = {
@@ -50,7 +52,7 @@ export class MqttDynamicService implements OnDestroy {
       });
 
       const data = JSON.parse(new TextDecoder().decode(payload));
-
+      this.totalEvent.emit(data);
       switch (data.deviceType) {
         case 'lamp':
           this.lightEvent.emit(data);
@@ -61,8 +63,8 @@ export class MqttDynamicService implements OnDestroy {
         case 'footfall':
           this.footfallEvent.emit(data);
           break;
-        case 'v1/front-end/devices/emc/pattern':
-          this.emcEvent.emit(JSON.parse(new TextDecoder().decode(payload)));
+        case 'emc':
+          this.emcEvent.emit(data);
           break;
       }
     });

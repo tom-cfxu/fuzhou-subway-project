@@ -4,7 +4,7 @@ import { IGNORE_BASE_URL } from '@delon/theme';
 import { environment } from '@env/environment';
 import { Observable, of, throwError, mergeMap } from 'rxjs';
 
-import { ReThrowHttpError, checkStatus, getAdditionalHeaders, toLogin } from './helper';
+import { ReThrowHttpError, checkStatus, getAdditionalHeaders } from './helper';
 import { tryRefreshToken } from './refresh-token';
 
 function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
@@ -39,7 +39,7 @@ function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<a
       if (environment.api.refreshTokenEnabled && environment.api.refreshTokenType === 're-request') {
         return tryRefreshToken(injector, ev, req, next);
       }
-      toLogin(injector);
+      // toLogin(injector);
       break;
     case 403:
     case 404:

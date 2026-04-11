@@ -1,5 +1,5 @@
 /* eslint-disable import/order */
-/* eslint-disable prettier/prettier */
+
 import { Component, Input } from '@angular/core';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CommonModule } from '@angular/common';
@@ -10,9 +10,9 @@ import { CommonModule } from '@angular/common';
     <div class="box5" nz-row>
       @for (item of data; track item.deviceKey) {
         <div nz-col nzSpan="12" class="item">
-          <div class="title" [ngClass]="{ close: isClose(item.status) }">{{ item.title }}</div>
+          <div class="title" [ngClass]="{ close: type === 'lamp' && isClose(item.status) }">{{ item.title }}</div>
           <div class="content">
-            <div class="state" (click)="change(item, $index)" [ngClass]="{ close: isClose(item.status) }">{{
+            <div class="state" (click)="change(item, $index)" [ngClass]="{ close: type === 'lamp' && isClose(item.status) }">{{
               item.stateOject[item.status]
             }}</div>
             <div class="value">
@@ -32,6 +32,8 @@ import { CommonModule } from '@angular/common';
 })
 export class DeviceItemComponent {
   @Input() data: any[] = [];
+
+  @Input() type = 'lamp';
 
   isClose(b: any) {
     return !b;

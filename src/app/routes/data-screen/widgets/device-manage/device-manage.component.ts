@@ -26,21 +26,30 @@ import { PowerSliderComponent } from '../power-slider/power-slider.component';
   template: `
     <div class="container">
       <div class="title">照明设备管控</div>
-      <app-manyidu [value]="4" />
+      <app-manyidu [value]="satisfaction_light" />
       <app-device-item [data]="device_light" />
       <div class="title">空调设备管控</div>
-      <app-manyidu [value]="4" />
-      <app-device-item [data]="device_air" />
+      <app-manyidu [value]="satisfaction_ac" />
+      <app-device-item type="ac" [data]="device_air" />
     </div>
   `,
   styleUrl: './device-manage.component.less'
 })
 export class DeviceManageComponent implements OnInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
+
+  timer: any;
+
+  satisfaction_light = 0;
+  satisfaction_ac = 0;
+
   // private readonly mqtt = inject(MqttTotalService);
   private readonly modal = inject(NzModalService);
   constructor() {}
   ngOnDestroy(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
     if (this.e1) {
       this.e1.unsubscribe();
     }
@@ -59,6 +68,10 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
   private mqtt = inject(MqttDynamicService);
   private readonly device = inject(DeviceService);
   ngOnInit(): void {
+    this.timer = setInterval(() => {
+      this.device.initDeviceTotal();
+    }, 1000 * 10);
+
     this.e1 = this.device.deviceUpdateEvent.subscribe((data: any) => {
       const l = data.filter((d: any) => d.deviceType === 'lamp');
       const a = data.filter((d: any) => d.deviceType === 'aircondition');
@@ -72,6 +85,7 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       });
       this.device_light = [...this.device_light];
       this.device_air = [...this.device_air];
+      this.initSatisfaction();
       this.cdr.detectChanges();
     });
 
@@ -88,6 +102,7 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       const index = this.device_air.findIndex((item: any) => item.deviceKey === data.deviceId);
       this.device_air[index].status = data.deviceValue;
       this.device_air = [...this.device_air];
+
       this.cdr.detectChanges();
     });
   }
@@ -253,6 +268,11 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       }
     }
   ];
+
+  initSatisfaction() {
+    this.satisfaction_light = this.device.satisfaction_light;
+    this.satisfaction_ac = this.device.satisfaction_ac;
+  }
 
   changeLight(item: any): void {
     // console.log('item', item);

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { DeviceService } from 'src/app/services/device.service';
 import { MqttDynamicService } from 'src/app/services/mqtt-dynamic.service';
 
@@ -49,8 +49,7 @@ import { DataTitleComponent } from './widgets/title/title.component';
           <app-device-manage />
           <data-title title="车站碳排放建议" [reverse]="true" />
           <div class="suguestion">
-            当前车站客流量较低，建议可关闭通道、站厅等区域部分照明设备，保留售票机、检票口等重点区域全部照明设备，剩余灯光设备可确保站厅等区域照明度不低于150
-            lx，重点区域不低于300 lx。建议可关闭车站通道部分空调设备，保留站厅空调设备，以保证在乘客大量停留的站厅区域温度在体感舒适的26℃。
+            {{ suggestion }}
           </div>
         </div>
       </div>
@@ -58,12 +57,25 @@ import { DataTitleComponent } from './widgets/title/title.component';
   `,
   styleUrl: './data-screen.component.less'
 })
-export class DataScreenComponent implements OnInit {
+export class DataScreenComponent implements OnInit, OnDestroy {
   private device = inject(DeviceService);
   private mqtt = inject(MqttDynamicService);
+
+  private cdr = inject(ChangeDetectorRef);
+  public suggestion = this.device.suggestion;
+  private e1: any;
 
   ngOnInit(): void {
     this.device.initDeviceTotal();
     this.mqtt.connectServer();
+    this.e1 = this.device.suggestionEvent.subscribe((s: string) => {
+      this.suggestion = s;
+      this.cdr.detectChanges();
+    });
+  }
+  ngOnDestroy(): void {
+    if (this.e1) {
+      this.e1.unsubscribe();
+    }
   }
 }

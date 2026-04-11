@@ -76,14 +76,14 @@ export class SandboxComponent implements OnInit, OnDestroy {
       deviceName: 'B出入口通道-照明-1',
       deviceType: 'lamp',
       deviceValue: 0,
-      style: 'z-index: 98;right:-75px;top:580px'
+      style: 'z-index: 98;left:850px;top:580px'
     },
     {
       deviceKey: 'lamp004',
       deviceName: 'B出入口通道-照明-2',
       deviceType: 'lamp',
       deviceValue: 0,
-      style: 'z-index: 99;right:-75px;top:420px'
+      style: 'z-index: 99;left:850px;top:420px'
     },
     {
       deviceKey: 'lamp005',
@@ -97,7 +97,7 @@ export class SandboxComponent implements OnInit, OnDestroy {
       deviceName: '站台-照明-2',
       deviceType: 'lamp',
       deviceValue: 0,
-      style: 'z-index: 98;right:180px;top:450px'
+      style: 'z-index: 98;left:600px;top:450px'
     },
     {
       deviceKey: 'lamp007',
@@ -111,7 +111,7 @@ export class SandboxComponent implements OnInit, OnDestroy {
       deviceName: '站厅-照明-2',
       deviceType: 'lamp',
       deviceValue: 0,
-      style: 'z-index: 98;right:175px;top:265px'
+      style: 'z-index: 98;left:600px;top:265px'
     }
   ];
 
@@ -128,7 +128,7 @@ export class SandboxComponent implements OnInit, OnDestroy {
       deviceName: 'B出入口通道-空调-1',
       deviceType: 'aircondition',
       deviceValue: 1,
-      style: 'z-index: 90;right:-75px;top:280px'
+      style: 'z-index: 90;left:850px;top:280px'
     },
     {
       deviceKey: 'ac003',

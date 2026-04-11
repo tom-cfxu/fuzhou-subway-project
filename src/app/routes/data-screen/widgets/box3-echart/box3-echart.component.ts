@@ -9,12 +9,12 @@ import { Observable } from 'rxjs';
   selector: 'app-box3-echart',
   imports: [FormsModule, ChartEChartsModule, NzSpinModule],
   template: `
-    <nz-spin [nzSpinning]="isSpinning">
-      <div class="main" style="width: 450px;">
-        <chart-echarts class="echart" width="100%" [option]="option" theme="dark" />
-        <!--  (events)="handleEvents($event)"  -->
-      </div>
-    </nz-spin>
+    <!-- <nz-spin [nzSpinning]="isSpinning"> -->
+    <div class="main" style="width: 450px;">
+      <chart-echarts class="echart" width="100%" [option]="option" theme="dark" />
+      <!--  (events)="handleEvents($event)"  -->
+    </div>
+    <!-- </nz-spin> -->
   `,
   styleUrl: './box3-echart.component.less'
 })

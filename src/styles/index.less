@@ -1,16 +1,17 @@
+/* stylelint-disable order/properties-order */
 /* You can add global styles to this file, and also import other style files */
 
 // ==========The following is the custom theme variable area==========
 // The theme paraments can be generated at https://ng-alain.github.io/ng-alain/
 // @primary-color: #f50;
 @font-face {
-  font-family: 'YSBiaoTiHei-regular';
+  font-family: YSBiaoTiHei-regular;
   src: url('../assets/tmp/fonts/YSBiaoTiHei-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: 'PingFangSC-Regular';
+  font-family: PingFangSC-Regular;
   src: url('../assets/tmp/fonts/PingFangSC-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
@@ -18,7 +19,7 @@
 
 /* 庞门正道标题体 */
 @font-face {
-  font-family: 'PMZDBiaoTi-regular';
+  font-family: PMZDBiaoTi-regular;
   src: url('../assets/tmp/fonts/PMZDBiaoTi-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
@@ -26,7 +27,7 @@
 
 body {
   font-family:
-    'PingFangSC',
+    PingFangSC,
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
@@ -36,7 +37,7 @@ body {
 
 // 覆盖 ng-zorro-antd 组件库字体（关键：ng-alain 基于 NG-ZORRO）
 :root {
-  --ant-font-family: 'PingFangSC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  --ant-font-family: 'PingFangSC', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif !important;
 }
 
 .ant-checkbox + span {
@@ -50,7 +51,7 @@ body {
     background-color: #000f2680 !important; // 深色背景
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
-    border: 1px solid rgba(77, 130, 228, 1) !important;
+    border: 1px solid rgb(77, 130, 228, 100%) !important;
     border-radius: 12px !important;
     transition: none;
     // box-shadow: 0 0 20px rgba(77, 130, 228, 1) !important;
@@ -65,7 +66,7 @@ body {
 
   // 标题文字
   .ant-modal-title {
-    color: #ffffff !important; // 白色文字
+    color: #fff !important; // 白色文字
     font-size: 18px !important;
     // font-weight: 500 !important;
     display: flex;
@@ -109,8 +110,8 @@ body {
 
   // 取消按钮样式
   .ant-modal-footer .ant-btn {
-    background-color: #bbbbbb !important;
-    color: #000000 !important;
+    background-color: #bbb !important;
+    color: #000 !important;
     width: 69px !important;
     height: 24px !important;
     border: none !important;
@@ -122,7 +123,7 @@ body {
   // 确认按钮样式
   .ant-modal-footer .ant-btn-primary {
     background: #5087ec !important;
-    color: #ffffff !important;
+    color: #fff !important;
     border: none !important;
   }
 
@@ -138,7 +139,7 @@ body {
     background-color: #000f2690 !important; // 深色背景
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
-    border: 1px solid rgba(77, 130, 228, 1) !important;
+    border: 1px solid rgb(77, 130, 228, 100%) !important;
     border-radius: 12px !important;
     // &::before {
     //   content: ''; /* 伪元素必须有content */
@@ -164,7 +165,7 @@ body {
 
   // 标题文字
   .ant-modal-title {
-    color: #ffffff !important; // 白色文字
+    color: #fff !important; // 白色文字
     font-size: 18px !important;
     // font-weight: 500 !important;
     display: flex;
@@ -194,8 +195,8 @@ body {
 
   // 取消按钮样式
   .ant-modal-footer .ant-btn {
-    background-color: #bbbbbb !important;
-    color: #000000 !important;
+    background-color: #bbb !important;
+    color: #000 !important;
     width: 69px !important;
     height: 24px !important;
     border: none !important;
@@ -207,7 +208,7 @@ body {
   // 确认按钮样式
   .ant-modal-footer .ant-btn-primary {
     background: #5087ec !important;
-    color: #ffffff !important;
+    color: #fff !important;
     border: none !important;
   }
 
@@ -222,7 +223,6 @@ body {
   .ant-modal-content {
     background-color: transparent !important; // 深色背景
     border: none !important;
-
     box-shadow: none !important;
   }
 
@@ -236,12 +236,47 @@ body {
     display: none;
   }
 
-  // 隐藏内容区（无额外内容）
-  .ant-modal-body {
-  }
+  // // 隐藏内容区（无额外内容）
+  // .ant-modal-body {
+  // }
 
   // 底部按钮区域
   .ant-modal-footer {
     display: none;
+  }
+}
+
+.error-modal {
+  // 弹窗整体容器
+  .ant-modal-content {
+    background-color: transparent !important; // 深色背景
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  // 弹窗头部（标题区域）
+  .ant-modal-header {
+    display: none;
+  }
+
+  // 标题文字
+  .ant-modal-title {
+    display: none;
+  }
+
+  // // 隐藏内容区（无额外内容）
+  // .ant-modal-body {
+  // }
+
+  // 底部按钮区域
+  .ant-modal-footer {
+    display: none;
+  }
+
+  .ant-modal-close {
+    top: 20px;
+    right: 20px;
+    color: rgb(255 123 21 / 100%);
+    // display: none !important;
   }
 }
