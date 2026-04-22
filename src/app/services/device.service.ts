@@ -8,8 +8,11 @@ import { HttpService } from './http.service';
 
 const suggestionObject: Record<number, string> = {
   1: `当前车站客流量较低，建议可关闭通道、站厅等区域部分照明设备，保留售票机、检票口等重点区域全部照明设备，剩余灯光设备可确保站厅等区域照明度不低于150 lx，重点区域不低于300 lx。建议可关闭车站通道部分空调设备，保留站厅空调设备，以保证在乘客大量停留的站厅区域温度在体感舒适的26℃。`,
-  2: `当前车站客流量较低，建议可关闭通道、站厅等区域部分照明设备，保留售票机、检票口等重点区域全部照明设备，剩余灯光设备可确保站厅等区域照明度不低于150 lx，重点区域不低于300 lx。建议可关闭车站通道部分空调设备，保留站厅空调设备，以保证在乘客大量停留的站厅区域温度在体感舒适的26℃。`,
-  3: `当前车站客流量较低，建议可关闭通道、站厅等区域部分照明设备，保留售票机、检票口等重点区域全部照明设备，剩余灯光设备可确保站厅等区域照明度不低于150 lx，重点区域不低于300 lx。建议可关闭车站通道部分空调设备，保留站厅空调设备，以保证在乘客大量停留的站厅区域温度在体感舒适的26℃。`
+  2: `当前车站客流量较低； 根据 GB 50157-2013 地铁设计规范标准，建 议可降低车站出入口通道、 站厅空调设备至普通功率，保障区域温度≤30℃， 新风量不少于总送风量的10%。`,
+  3: `当前车站客流量较低； 根据 GB 50157-2013 地铁设计规范标准，建议可降低车站出入口通道、 站厅空调设备至普通功率，降低站台空调设备至低功率， 保障区域温度≤30℃， 新风量不少于总送风量的10%。`,
+  4: `当前车站客流量较低；根据 GB/T 16275-2025 城市轨道交通照明标准，建议可关闭出入口通道部分照明设备，保障该区域照度不低于150lx；保留站厅、站台区域全部照明设备，保障区域照度不低于100lx。根据 GB 50157-2013 地铁设计规范标准，建议可降低车站出入口通道、站厅空调设备至普通功率，降低站台空调设备至低功率，保障区域温度≤30℃，新风量不少于总送风量的10%。`,
+  // 5: `当前车站客流量较低；根据 GB/T 16275-2025 城市轨道交通照明/标准，建议可关闭出入口通道部分照明设备，保障该区域照度不低于150lx；保留站厅、站台区域全部照明设备，保障区域照度不低于100lx。根据 GB 50157-2013 地铁设计规范标准，建议可降低车站出入口通道、站厅空调设备至普通功率，降低站台空调设备至低功率，保障区域温度≤30℃，新风量不少于总送风量的10%。`
+  6: `高客流 ：车站能耗设备默认状态符合高客流要求，请勿随意调节`
 };
 
 @Injectable({
@@ -17,13 +20,14 @@ const suggestionObject: Record<number, string> = {
 })
 export class DeviceService {
   private http = inject(HttpService);
-  private msg = inject(NzMessageService);
+  public msg = inject(NzMessageService);
 
   public mode = 0;
   public level = 0;
   public deviceTotalList: any[] = [];
 
-  private _suggestion = suggestionObject[1];
+  energyAssessment_result = 4;
+  private _suggestion = suggestionObject[4];
 
   get suggestion() {
     return this._suggestion;
@@ -37,7 +41,6 @@ export class DeviceService {
   suggestionEvent = new EventEmitter<string>();
   deviceUpdateEvent = new EventEmitter<any>();
 
-  energyAssessment_result = 4;
   satisfaction_light = 0;
   satisfaction_ac = 0;
   statistics_light() {
@@ -77,7 +80,7 @@ export class DeviceService {
     }
   }
   statistics_air() {
-    console.log(this.deviceTotalList);
+    // console.log(this.deviceTotalList);
     const airgroup1 = this.deviceTotalList
       .filter((d: any) => d.deviceType === 'aircondition' && d.deviceGroup === 1)
       .map((d: any) => d.deviceValue)[0];
@@ -87,24 +90,28 @@ export class DeviceService {
     const airgroup4 = this.deviceTotalList
       .filter((d: any) => d.deviceType === 'aircondition' && d.deviceGroup === 4)
       .map((d: any) => d.deviceValue)[0];
-    if ((airgroup1 === 3 || airgroup2 === 3) && airgroup4 === 3) {
+    if ((airgroup1 === 1 || airgroup2 === 1) && airgroup4 === 1) {
       this.satisfaction_ac = 0;
     }
 
-    if (airgroup1 < 3 && airgroup2 < 3 && airgroup4 === 3) {
+    if (airgroup1 !== 1 && airgroup2 !== 1 && airgroup4 === 1) {
       this.satisfaction_ac = 2;
     }
 
-    if ((airgroup1 === 3 || airgroup2 === 3) && airgroup4 < 3) {
+    if ((airgroup1 === 1 || airgroup2 === 1) && airgroup4 !== 1) {
       this.satisfaction_ac = 3;
     }
 
-    if (airgroup1 < 3 && airgroup2 < 3 && airgroup4 < 3) {
+    if (airgroup1 !== 1 && airgroup2 !== 1 && airgroup4 !== 1) {
       this.satisfaction_ac = 5;
     }
   }
 
   energyAssessment() {
+    if (this.level == 1) {
+      this.suggestion = suggestionObject[6];
+      return;
+    }
     if (this.mode === 0 && this.level == 1) {
       return;
     }
@@ -141,46 +148,47 @@ export class DeviceService {
     const l_group2_huo = l_group2.reduce((a: any, b: any) => a || b);
 
     const l_group3_yu = l_group3.reduce((a: any, b: any) => a && b);
-    const l_group3_huo = l_group3.reduce((a: any, b: any) => a || b);
+    // const l_group3_huo = l_group3.reduce((a: any, b: any) => a || b);
 
     const l_group4_yu = l_group4.reduce((a: any, b: any) => a && b);
-    const l_group4_huo = l_group4.reduce((a: any, b: any) => a || b);
+    // const l_group4_huo = l_group4.reduce((a: any, b: any) => a || b);
 
-    const l_group1_result = l_group1_yu != 1 && l_group1_huo != 0;
-    const l_group2_result = l_group2_yu != 1 && l_group2_huo != 0;
-    const l_group3_result = l_group3_yu == 1;
-    const l_group4_result = l_group4_yu == 1;
-
+    const l_group3_result = l_group3_yu == 1; //全1
+    const l_group4_result = l_group4_yu == 1; //全1
     const a_group = [a_group1, a_group2, a_group4];
 
-    const a_result = (a_group1 != 3 || a_group2 != 3 || a_group4 != 3) && a_group.findIndex((v: any) => v === 1) > -1 && a_group3 != 3;
-
-    if (l_group1_result && l_group2_result && l_group3_result && l_group4_result && a_result) {
-      this.energyAssessment_result = 1;
-      this.suggestion = suggestionObject[this.energyAssessment_result];
+    //遗憾未实现
+    const l_group_result4 = l_group1_huo != 0 && l_group2_huo != 0 && (l_group1_yu || l_group2_yu); //AB 非00且存在11
+    const a_result4 = a_group1 === 3 && a_group2 === 3 && a_group4 === 3 && a_group3 != 1; //AB 站厅 全3且站台非1
+    if (l_group_result4 && l_group3_result && l_group4_result && a_result4) {
+      this.energyAssessment_result = 4;
+      this.suggestion = suggestionObject[4];
+      return;
     }
-
-    console.log('l_group1', l_group1);
-    console.log('l_group2', l_group2);
-    console.log('l_group3', l_group3);
-    console.log('l_group4', l_group4);
-
-    console.log('l_group1_yu', l_group1_yu);
-    console.log('l_group1_huo', l_group1_huo);
-    console.log('l_group2_yu', l_group2_yu);
-    console.log('l_group2_huo', l_group2_huo);
-    console.log('l_group3_yu', l_group3_yu);
-    console.log('l_group3_huo', l_group3_huo);
-    console.log('l_group4_yu', l_group4_yu);
-    console.log('l_group4_huo', l_group4_huo);
-    console.log('a_group1', a_group1);
-    console.log('a_group2', a_group2);
-    console.log('a_group3', a_group3);
-    console.log('a_group4', a_group4);
-
-    // if(){
-
-    // }
+    //节能达人
+    const l_group_result3 = l_group1_huo != 0 && l_group1_yu != 1 && l_group2_huo != 0 && l_group2_yu != 1; //非00且非11
+    const a_result3 = (a_group1 != 1 || a_group2 != 1 || a_group4 != 1) && a_group.findIndex((v: any) => v === 3) > -1 && a_group3 != 1; //AB 站厅 非1且存在3 且站台非1
+    if (l_group_result3 && l_group3_result && l_group4_result && a_result3) {
+      this.energyAssessment_result = 3;
+      this.suggestion = suggestionObject[3];
+      return;
+    }
+    //节能高手
+    const l_group_result2 = l_group1_huo != 0 && l_group1_yu != 1 && l_group2_huo != 0 && l_group2_yu != 1; //非00且非11
+    const a_result2 = (a_group1 != 1 || a_group2 != 1 || a_group4 != 1) && a_group.findIndex((v: any) => v === 3) > -1 && a_group3 == 1; //AB 站厅 非1且存在3 且站台1
+    if (l_group_result2 && l_group3_result && l_group4_result && a_result2) {
+      this.energyAssessment_result = 2;
+      this.suggestion = suggestionObject[2];
+      return;
+    }
+    //节能大师
+    const l_group_result1 = l_group1_huo != 0 && l_group1_yu != 1 && l_group2_huo != 0 && l_group2_yu != 1; //非00且非11
+    const a_result1 = (a_group1 == 2 || a_group2 == 1 || a_group4 == 1) && a_group3 == 1; //AB 站厅 全2 且站台1
+    if (l_group_result1 && l_group3_result && l_group4_result && a_result1) {
+      this.energyAssessment_result = 1;
+      this.suggestion = suggestionObject[1];
+      return;
+    }
   }
 
   initSatisfaction() {
@@ -238,6 +246,25 @@ export class DeviceService {
         return;
       }
       api({ deviceId, deviceValue }).subscribe({
+        next: (res: Respond) => {
+          if (res.code === 0 && res.data) {
+            o.next(true);
+            this.initDeviceTotal();
+          } else {
+            o.next(false);
+          }
+        },
+        error: (err: any) => {
+          console.log('err', err);
+          o.next(false);
+        }
+      });
+    });
+  }
+
+  deviceBatchControl(data: any[]): Observable<boolean> {
+    return new Observable(o => {
+      this.http.api.deviceSendBatchMessage(data).subscribe({
         next: (res: Respond) => {
           if (res.code === 0 && res.data) {
             o.next(true);

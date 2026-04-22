@@ -20,6 +20,7 @@ export interface Api {
   deviceSendAirConditionMessage(data: any): Observable<Respond>;
   deviceSendEmcMessage(data: any): Observable<Respond>;
   deviceSendFootfallMessage(data: any): Observable<Respond>;
+  deviceSendBatchMessage(data: any): Observable<Respond>;
 }
 interface API {
   api: string;
@@ -89,6 +90,13 @@ export const API: API[] = [
     api: 'deviceSendFootfallMessage',
     comment: '客流量接口',
     url: `/app-api/iot/subway/device/send/footfall/message${noToken}`,
+    type: 'post',
+    header: { 'Content-Type': 'application/json' }
+  },
+  {
+    api: 'deviceSendBatchMessage',
+    comment: '批量控制接口',
+    url: `/app-api/iot/subway/device/send/batch/message${noToken}`,
     type: 'post',
     header: { 'Content-Type': 'application/json' }
   }

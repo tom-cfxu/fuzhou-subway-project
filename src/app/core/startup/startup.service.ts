@@ -10,7 +10,7 @@ import { HttpClient, HttpContext } from '@angular/common/http';
 import { EnvironmentProviders, Injectable, Provider, inject, provideAppInitializer } from '@angular/core';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
-import { ALLOW_ANONYMOUS } from '@delon/auth';
+import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN } from '@delon/auth';
 import { _HttpClient, ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { Observable, zip, catchError, map } from 'rxjs';
@@ -40,12 +40,21 @@ export class StartupService {
   private settingService = inject(SettingsService);
   private aclService = inject(ACLService);
   private titleService = inject(TitleService);
+  private readonly tokenService = inject(DA_SERVICE_TOKEN);
   private httpClient = inject(HttpClient);
   private router = inject(Router);
   private i18n = inject<I18NService>(ALAIN_I18N_TOKEN);
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
+    this.tokenService.set({
+      token: '123456789',
+      name: 'admin',
+      email: 'admin@qq.com',
+      expired: +new Date() + 1000 * 60 * 5,
+      id: 10000,
+      time: +new Date()
+    });
     this.loadHost();
     // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
     // this.httpClient.get('/app', { context: new HttpContext().set(ALLOW_ANONYMOUS, this.tokenService.get()?.token ? false : true) })

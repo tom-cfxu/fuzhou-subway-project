@@ -76,11 +76,11 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       const l = data.filter((d: any) => d.deviceType === 'lamp');
       const a = data.filter((d: any) => d.deviceType === 'aircondition');
       this.device_light.forEach((item: any) => {
-        item.status = l.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
+        item.status = Number(l.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue);
         item.value = l.find((d: any) => d.deviceKey === item.deviceKey)?.carbonEmission.toFixed(1);
       });
       this.device_air.forEach((item: any) => {
-        item.status = a.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue;
+        item.status = Number(a.find((d: any) => d.deviceKey === item.deviceKey)?.deviceValue);
         item.value = a.find((d: any) => d.deviceKey === item.deviceKey)?.carbonEmission.toFixed(1);
       });
       this.device_light = [...this.device_light];
@@ -92,7 +92,7 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
     this.lightEvent = this.mqtt.lightEvent.subscribe((data: any) => {
       // console.log('lightEvent', data);
       const index = this.device_light.findIndex((item: any) => item.deviceKey === data.deviceId);
-      this.device_light[index].status = data.deviceValue;
+      this.device_light[index].status = Number(data.deviceValue);
       this.device_light = [...this.device_light];
       this.cdr.detectChanges();
       // const index = this.light.findIndex(item => item.deviceKey === data.deviceKey);
@@ -100,7 +100,7 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
     this.airEvent = this.mqtt.airEvent.subscribe((data: any) => {
       // console.log('airEvent', data);
       const index = this.device_air.findIndex((item: any) => item.deviceKey === data.deviceId);
-      this.device_air[index].status = data.deviceValue;
+      this.device_air[index].status = Number(data.deviceValue);
       this.device_air = [...this.device_air];
 
       this.cdr.detectChanges();
@@ -126,7 +126,7 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
       deviceName: 'A出入口通道-照明-2',
       deviceType: 'lamp',
       title: 'A出入口通道-照明-2',
-      status: 0,
+      status: 1,
       stateOject: { 1: '开启中', 0: '关闭中' },
       subtitle: '累计碳排放(kg)',
       value: '26.0',

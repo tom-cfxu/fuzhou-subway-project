@@ -1,9 +1,10 @@
 /* eslint-disable import/order */
-import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
+import { EventEmitter, inject, Injectable, OnDestroy } from '@angular/core';
 import type { QoS } from 'mqtt';
 
 // 🔥 Vite + Angular 17 唯一兼容导入
 import mqtt from 'mqtt/dist/mqtt.min';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,6 +12,8 @@ export class MqttDynamicService implements OnDestroy {
   private mqttClient: any = null;
   public message$ = new Subject<{ topic: string; payload: string }>();
   public connected$ = new Subject<boolean>();
+
+  private msg = inject(NzMessageService);
 
   public totalEvent = new EventEmitter<any>();
 
@@ -52,20 +55,26 @@ export class MqttDynamicService implements OnDestroy {
       });
 
       const data = JSON.parse(new TextDecoder().decode(payload));
-      this.totalEvent.emit(data);
-      switch (data.deviceType) {
-        case 'lamp':
-          this.lightEvent.emit(data);
-          break;
-        case 'aircondition':
-          this.airEvent.emit(data);
-          break;
-        case 'footfall':
-          this.footfallEvent.emit(data);
-          break;
-        case 'emc':
-          this.emcEvent.emit(data);
-          break;
+      const { code } = data;
+      if (code == 500) {
+        this.msg.error(data.msg || '设备控制失败');
+        return;
+      } else if (code == 200) {
+        this.totalEvent.emit(data);
+        switch (data.deviceType) {
+          case 'lamp':
+            this.lightEvent.emit(data);
+            break;
+          case 'aircondition':
+            this.airEvent.emit(data);
+            break;
+          case 'footfall':
+            this.footfallEvent.emit(data);
+            break;
+          case 'emc':
+            this.emcEvent.emit(data);
+            break;
+        }
       }
     });
 

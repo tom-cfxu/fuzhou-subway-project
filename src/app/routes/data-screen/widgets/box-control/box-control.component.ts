@@ -66,8 +66,8 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
   deviceId_emc = '';
   deviceId_footfall = '';
 
-  mode = 1;
-  level = 0;
+  mode = 1; // 0节能 1手动
+  level = 0; //0低客流 1高客流
 
   modeObject: any = {
     1: {
@@ -139,7 +139,7 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
         .filter((d: any) => d.deviceType === 'aircondition')
         .every((item: any) => item.deviceValue === 3);
       if (l && a) {
-        this.evaluateModal('confirm', '当前处于高客流模式，请切换到手动模式再进行评估');
+        this.evaluateModal('confirm', '当前处于高客流模式，请切换到低客流模式和手动模式再进行评估');
       } else {
         this.evaluateModal('error');
       }
@@ -149,9 +149,26 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    // this.level = 0;
-    // this.mode = 1;
-    // this.cdr.detectChanges();
+    this.device
+      .deviceBatchControl([
+        { deviceType: 'footfall', deviceId: this.deviceId_footfall, deviceValue: 0 },
+        { deviceType: 'emc', deviceId: this.deviceId_emc, deviceValue: 1 },
+        { deviceType: 'lamp', deviceId: 'lamp001', deviceValue: 1 },
+        { deviceType: 'lamp', deviceId: 'lamp002', deviceValue: 1 },
+        { deviceType: 'lamp', deviceId: 'lamp003', deviceValue: 1 },
+        { deviceType: 'lamp', deviceId: 'lamp004', deviceValue: 1 },
+        { deviceType: 'lamp', deviceId: 'lamp005', deviceValue: 1 },
+        { deviceType: 'lamp', deviceId: 'lamp006', deviceValue: 1 },
+        { deviceType: 'lamp', deviceId: 'lamp007', deviceValue: 1 },
+        { deviceType: 'lamp', deviceId: 'lamp008', deviceValue: 1 },
+        { deviceType: 'aircondition', deviceId: 'ac001', deviceValue: 3 },
+        { deviceType: 'aircondition', deviceId: 'ac002', deviceValue: 3 },
+        { deviceType: 'aircondition', deviceId: 'ac003', deviceValue: 3 },
+        { deviceType: 'aircondition', deviceId: 'ac004', deviceValue: 3 }
+      ])
+      .subscribe(() => {
+        this.device.msg.success('重置成功');
+      });
   }
   levelChange() {
     this.level = Number(!this.level);
@@ -166,7 +183,51 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
       nzMaskClosable: false,
       nzOnOk: () => {
         this.mode = Number(!this.mode);
+
         this.device.deviceControl('emc', this.deviceId_emc, this.mode).subscribe();
+        if (this.mode === 0) {
+          if (this.level == 1) {
+            this.device
+              .deviceBatchControl([
+                { deviceType: 'lamp', deviceId: 'lamp001', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp002', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp003', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp004', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp005', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp006', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp007', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp008', deviceValue: 1 },
+                { deviceType: 'aircondition', deviceId: 'ac001', deviceValue: 3 },
+                { deviceType: 'aircondition', deviceId: 'ac002', deviceValue: 3 },
+                { deviceType: 'aircondition', deviceId: 'ac003', deviceValue: 3 },
+                { deviceType: 'aircondition', deviceId: 'ac004', deviceValue: 3 }
+              ])
+              .subscribe(() => {
+                this.device.msg.success('已切换到高客流节能模式');
+              });
+          } else {
+            this.device
+              .deviceBatchControl([
+                { deviceType: 'lamp', deviceId: 'lamp001', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp002', deviceValue: 0 },
+                { deviceType: 'lamp', deviceId: 'lamp003', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp004', deviceValue: 0 },
+                { deviceType: 'lamp', deviceId: 'lamp005', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp006', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp007', deviceValue: 1 },
+                { deviceType: 'lamp', deviceId: 'lamp008', deviceValue: 1 },
+                { deviceType: 'aircondition', deviceId: 'ac001', deviceValue: 2 },
+                { deviceType: 'aircondition', deviceId: 'ac002', deviceValue: 2 },
+                { deviceType: 'aircondition', deviceId: 'ac003', deviceValue: 2 },
+                { deviceType: 'aircondition', deviceId: 'ac004', deviceValue: 1 }
+              ])
+              .subscribe(() => {
+                this.device.msg.success('已切换到低客流节能模式');
+              });
+          }
+        } else {
+          this.device.msg.success('已切换到手动模式');
+        }
         this.cdr.detectChanges();
       }
     });

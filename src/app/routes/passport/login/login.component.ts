@@ -1,12 +1,10 @@
-import { HttpContext } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StartupService } from '@core';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
-import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN, SocialOpenType, SocialService } from '@delon/auth';
+import { DA_SERVICE_TOKEN, SocialService } from '@delon/auth';
 import { I18nPipe, SettingsService, _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
@@ -15,7 +13,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTabChangeEvent, NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
-import { finalize } from 'rxjs';
 
 @Component({
   selector: 'passport-login',
@@ -109,7 +106,6 @@ export class UserLoginComponent implements OnDestroy {
     this.cdr.detectChanges();
 
     setTimeout(() => {
-
       this.loading = false;
       // 清空路由复用信息
       this.reuseTabService?.clear();
@@ -120,7 +116,7 @@ export class UserLoginComponent implements OnDestroy {
         token: '123456789',
         name: this.form.value.userName,
         email: `${this.form.value.userName}@qq.com`,
-        expired:+new Date() + 1000 * 60 * 5,
+        expired: +new Date() + 1000 * 60 * 5,
         id: 10000,
         time: +new Date()
       });
@@ -130,7 +126,8 @@ export class UserLoginComponent implements OnDestroy {
         if (url.includes('/passport')) {
           url = '/';
         }
-        this.router.navigateByUrl(url)});
+        this.router.navigateByUrl(url);
+      });
     }, 1000);
     // this.http
     //   .post(

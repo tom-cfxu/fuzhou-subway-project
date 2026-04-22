@@ -45,12 +45,9 @@ export class Box1Component implements OnInit, OnDestroy {
     setTimeout(() => {
       this.loadData();
     });
-    this.timer = setInterval(
-      () => {
-        this.loadData();
-      },
-      this.dataRefreshMinutes * 1000 * 60
-    );
+    this.timer = setInterval(() => {
+      this.loadData();
+    }, 1000 * 10);
   }
   timer: any;
   loadData(): void {
