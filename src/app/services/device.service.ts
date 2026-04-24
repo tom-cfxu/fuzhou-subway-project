@@ -7,11 +7,15 @@ import { Respond } from './api';
 import { HttpService } from './http.service';
 
 const suggestionObject: Record<number, string> = {
-  1: `当前车站客流量较低，建议可关闭通道、站厅等区域部分照明设备，保留售票机、检票口等重点区域全部照明设备，剩余灯光设备可确保站厅等区域照明度不低于150 lx，重点区域不低于300 lx。建议可关闭车站通道部分空调设备，保留站厅空调设备，以保证在乘客大量停留的站厅区域温度在体感舒适的26℃。`,
+  //节能大师
+  1: `当前车站客流量较低，车站用电处于低能耗模式；根据 GB/T 16275-2025 城市轨道交通照明标准，已关闭出入口通道部分照明设备，同时保障该区域照度不低于150lx；已保留站厅、站台区域全部照明设备，同时保障区域照度不低于100lx。根据 GB 50157-2013 地铁设计规范标准，已降低车站出入口通道、站厅空调设备至普通功率，降低站台空调设备至低功率，同时保障区域温度≤30℃，新风量不少于总送风量的10%。`,
+  //节能高手
   2: `当前车站客流量较低； 根据 GB 50157-2013 地铁设计规范标准，建 议可降低车站出入口通道、 站厅空调设备至普通功率，保障区域温度≤30℃， 新风量不少于总送风量的10%。`,
+  //节能达人
   3: `当前车站客流量较低； 根据 GB 50157-2013 地铁设计规范标准，建议可降低车站出入口通道、 站厅空调设备至普通功率，降低站台空调设备至低功率， 保障区域温度≤30℃， 新风量不少于总送风量的10%。`,
+  //很遗憾
   4: `当前车站客流量较低；根据 GB/T 16275-2025 城市轨道交通照明标准，建议可关闭出入口通道部分照明设备，保障该区域照度不低于150lx；保留站厅、站台区域全部照明设备，保障区域照度不低于100lx。根据 GB 50157-2013 地铁设计规范标准，建议可降低车站出入口通道、站厅空调设备至普通功率，降低站台空调设备至低功率，保障区域温度≤30℃，新风量不少于总送风量的10%。`,
-  // 5: `当前车站客流量较低；根据 GB/T 16275-2025 城市轨道交通照明/标准，建议可关闭出入口通道部分照明设备，保障该区域照度不低于150lx；保留站厅、站台区域全部照明设备，保障区域照度不低于100lx。根据 GB 50157-2013 地铁设计规范标准，建议可降低车站出入口通道、站厅空调设备至普通功率，降低站台空调设备至低功率，保障区域温度≤30℃，新风量不少于总送风量的10%。`
+  //高客流模式
   6: `高客流 ：车站能耗设备默认状态符合高客流要求，请勿随意调节`
 };
 
@@ -19,7 +23,7 @@ const suggestionObject: Record<number, string> = {
   providedIn: 'root'
 })
 export class DeviceService {
-  private http = inject(HttpService);
+  public http = inject(HttpService);
   public msg = inject(NzMessageService);
 
   public mode = 0;
@@ -183,10 +187,14 @@ export class DeviceService {
     }
     //节能大师
     const l_group_result1 = l_group1_huo != 0 && l_group1_yu != 1 && l_group2_huo != 0 && l_group2_yu != 1; //非00且非11
-    const a_result1 = (a_group1 == 2 || a_group2 == 1 || a_group4 == 1) && a_group3 == 1; //AB 站厅 全2 且站台1
+    const a_result1 = a_group1 == 2 && a_group2 == 2 && a_group4 == 2 && a_group3 == 1; //AB 站厅 全2 且站台1
     if (l_group_result1 && l_group3_result && l_group4_result && a_result1) {
       this.energyAssessment_result = 1;
       this.suggestion = suggestionObject[1];
+      return;
+    } else {
+      this.energyAssessment_result = 4;
+      this.suggestion = suggestionObject[4];
       return;
     }
   }

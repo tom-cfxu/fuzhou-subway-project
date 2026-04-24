@@ -230,7 +230,7 @@ export class Box2EchartComponent implements OnInit, AfterViewInit, OnDestroy {
     yAxis: {
       type: 'value',
       min: 0,
-      max: 500,
+      // max: 500,
       // interval: 50,
       axisLine: { lineStyle: { color: '#fff' } },
       axisLabel: { color: '#fff' },

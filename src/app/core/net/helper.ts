@@ -33,8 +33,8 @@ export function goTo(injector: Injector, url: string): void {
 }
 
 export function toLogin(injector: Injector): void {
-  injector.get(NzNotificationService).error(`未登录或登录已过期，请重新登录。`, ``);
-  goTo(injector, injector.get(DA_SERVICE_TOKEN).login_url!);
+  // injector.get(NzNotificationService).error(`未登录或登录已过期，请重新登录。`, ``);
+  // goTo(injector, injector.get(DA_SERVICE_TOKEN).login_url!);
 }
 
 export function getAdditionalHeaders(headers?: HttpHeaders): Record<string, string> {

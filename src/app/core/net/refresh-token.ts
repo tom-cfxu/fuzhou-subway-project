@@ -3,7 +3,7 @@ import { EnvironmentProviders, Injector, inject, provideAppInitializer } from '@
 import { DA_SERVICE_TOKEN } from '@delon/auth';
 import { BehaviorSubject, Observable, catchError, filter, switchMap, take, throwError } from 'rxjs';
 
-import { toLogin } from './helper';
+// import { toLogin } from './helper';
 
 let refreshToking = false;
 let refreshToken$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -33,7 +33,7 @@ function refreshTokenRequest(injector: Injector): Observable<any> {
 export function tryRefreshToken(injector: Injector, ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
   // 1、若请求为刷新Token请求，表示来自刷新Token可以直接跳转登录页
   if ([`/api/auth/refresh`].some(url => req.url.includes(url))) {
-    toLogin(injector);
+    // toLogin(injector);
     return throwError(() => ev);
   }
   // 2、如果 `refreshToking` 为 `true` 表示已经在请求刷新 Token 中，后续所有请求转入等待状态，直至结果返回后再重新发起请求
@@ -60,7 +60,7 @@ export function tryRefreshToken(injector: Injector, ev: HttpResponseBase, req: H
     }),
     catchError(err => {
       refreshToking = false;
-      toLogin(injector);
+      // toLogin(injector);
       return throwError(() => err);
     })
   );
@@ -84,7 +84,7 @@ function buildAuthRefresh(injector: Injector): void {
         refreshToking = false;
         tokenSrv.set(res);
       },
-      error: () => toLogin(injector)
+      error: () => {} //toLogin(injector)
     });
 }
 

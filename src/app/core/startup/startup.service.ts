@@ -95,6 +95,8 @@ export class StartupService {
             const host: string = res.data['host'];
             const dataRefreshMinutes: string = res.data['dataRefreshMinutes'];
             const mqtt: any = res.data['mqtt'];
+            console.log('Host:', host);
+            console.log('mqtt:', mqtt);
             localStorage.setItem('host', host);
             localStorage.setItem('dataRefreshMinutes', dataRefreshMinutes);
             localStorage.setItem('mqtt', JSON.stringify(mqtt));
