@@ -1,0 +1,19 @@
+{
+  "code":0,
+  "msg":"请求成功",
+  "data":{
+    "host":"http://127.0.0.1:9090",
+    "dataRefreshMinutes":20,
+    "mqtt":{
+      "host": "127.0.0.1",
+      "protocol": "ws",
+      "port": 8083,
+      "path": "/mqtt",
+      "username": "ymdreams",
+      "password": "ymdreams@2026",
+      "keepalive": 60,
+      "reconnectPeriod": 1000,
+      "clean": true
+    }
+  }
+}

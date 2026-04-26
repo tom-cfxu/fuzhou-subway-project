@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { EventEmitter, inject, Injectable } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Observable } from 'rxjs';
 
 import { Respond } from './api';
@@ -26,8 +27,12 @@ export class DeviceService {
   public http = inject(HttpService);
   public msg = inject(NzMessageService);
 
+  private modal = inject(NzModalService);
+
   public mode = 0;
   public level = 0;
+
+  public rgbLight = 0;
   public deviceTotalList: any[] = [];
 
   energyAssessment_result = 4;
@@ -111,7 +116,7 @@ export class DeviceService {
     }
   }
 
-  energyAssessment() {
+  energyAssessment(rgb = false) {
     if (this.level == 1) {
       this.suggestion = suggestionObject[6];
       return;
@@ -167,6 +172,9 @@ export class DeviceService {
     if (l_group_result4 && l_group3_result && l_group4_result && a_result4) {
       this.energyAssessment_result = 4;
       this.suggestion = suggestionObject[4];
+      if (rgb) {
+        this.deviceControl('rgb', 'rgb-light', 0).subscribe();
+      }
       return;
     }
     //节能达人
@@ -175,6 +183,9 @@ export class DeviceService {
     if (l_group_result3 && l_group3_result && l_group4_result && a_result3) {
       this.energyAssessment_result = 3;
       this.suggestion = suggestionObject[3];
+      if (rgb) {
+        this.deviceControl('rgb', 'rgb-light', 3).subscribe();
+      }
       return;
     }
     //节能高手
@@ -183,6 +194,9 @@ export class DeviceService {
     if (l_group_result2 && l_group3_result && l_group4_result && a_result2) {
       this.energyAssessment_result = 2;
       this.suggestion = suggestionObject[2];
+      if (rgb) {
+        this.deviceControl('rgb', 'rgb-light', 2).subscribe();
+      }
       return;
     }
     //节能大师
@@ -191,10 +205,16 @@ export class DeviceService {
     if (l_group_result1 && l_group3_result && l_group4_result && a_result1) {
       this.energyAssessment_result = 1;
       this.suggestion = suggestionObject[1];
+      if (rgb) {
+        this.deviceControl('rgb', 'rgb-light', 1).subscribe();
+      }
       return;
     } else {
       this.energyAssessment_result = 4;
       this.suggestion = suggestionObject[4];
+      if (rgb) {
+        this.deviceControl('rgb', 'rgb-light', 0).subscribe();
+      }
       return;
     }
   }
@@ -235,10 +255,17 @@ export class DeviceService {
       }
     });
   }
-  deviceControl(type: 'ac' | 'lamp' | 'emc' | 'footfall', deviceId: string, deviceValue: any): Observable<boolean> {
-    if (this.mode === 0 && type !== 'emc' && type !== 'footfall') {
+  deviceControl(type: 'ac' | 'lamp' | 'emc' | 'footfall' | 'rgb', deviceId: string, deviceValue: any): Observable<boolean> {
+    if (this.mode === 0 && type !== 'emc' && type !== 'footfall' && type !== 'rgb') {
       console.warn('当前处于节能模式，无法控制设备');
-      this.msg.warning('当前处于节能模式，无法控制设备,请切换到手动模式后再试！');
+      // this.msg.warning('当前处于节能模式，无法控制设备,请切换到手动模式后再试！');
+      this.modal.create({
+        nzIconType: 'warning',
+        nzClassName: 'energy-modal-confirm',
+        nzCentered: true,
+        nzCancelText: null,
+        nzTitle: '当前处于节能模式，无法控制设备,请切换到手动模式后再试！'
+      });
       return new Observable(o => o.next(false));
     }
     return new Observable(o => {
@@ -246,7 +273,8 @@ export class DeviceService {
         lamp: this.http.api.deviceSendLampMessage,
         ac: this.http.api.deviceSendAirConditionMessage,
         emc: this.http.api.deviceSendEmcMessage,
-        footfall: this.http.api.deviceSendFootfallMessage
+        footfall: this.http.api.deviceSendFootfallMessage,
+        rgb: this.http.api.deviceSendRGBLightMessage
       };
       const api = httpApiMap[type];
       if (!api) {
@@ -257,7 +285,9 @@ export class DeviceService {
         next: (res: Respond) => {
           if (res.code === 0 && res.data) {
             o.next(true);
-            this.initDeviceTotal();
+            if (type !== 'rgb') {
+              this.initDeviceTotal();
+            }
           } else {
             o.next(false);
           }

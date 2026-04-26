@@ -128,6 +128,7 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
     }
   }
 
+  //评估按钮
   evaluate() {
     if (this.mode === 0) {
       this.evaluateModal('confirm', '当前处于节能模式，请切换到手动模式再进行评估');
@@ -145,12 +146,13 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
       }
     } else {
       this.evaluateModal('energy', '', this.device.energyAssessment_result);
+      this.device.energyAssessment(true);
     }
   }
 
   reset() {
     this.device.http.api.deviceSendResetButtonMessage().subscribe(() => {
-      this.device.msg.success('重置成功');
+      this.device.msg.success('重置命令下发成功');
     });
   }
   levelChange() {
@@ -171,7 +173,7 @@ export class BoxCeterControlComponent implements OnInit, OnDestroy {
   }
   changeMode(): void {
     this.modal.create({
-      nzTitle: this.mode == 1 ? '是否切换节能模式？' : '是否切换手动模式？',
+      nzTitle: this.mode == 1 ? `是否切换${this.level === 1 ? '高' : '低'}客流节能模式？` : '是否切换手动模式？',
       nzClassName: 'energy-modal-confirm',
       nzCentered: true,
       nzMaskClosable: false,

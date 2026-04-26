@@ -90,19 +90,15 @@ export class DeviceManageComponent implements OnInit, OnDestroy {
     });
 
     this.lightEvent = this.mqtt.lightEvent.subscribe((data: any) => {
-      // console.log('lightEvent', data);
       const index = this.device_light.findIndex((item: any) => item.deviceKey === data.deviceId);
       this.device_light[index].status = Number(data.deviceValue);
       this.device_light = [...this.device_light];
       this.cdr.detectChanges();
-      // const index = this.light.findIndex(item => item.deviceKey === data.deviceKey);
     });
     this.airEvent = this.mqtt.airEvent.subscribe((data: any) => {
-      // console.log('airEvent', data);
       const index = this.device_air.findIndex((item: any) => item.deviceKey === data.deviceId);
       this.device_air[index].status = Number(data.deviceValue);
       this.device_air = [...this.device_air];
-
       this.cdr.detectChanges();
     });
   }

@@ -22,6 +22,11 @@ export class MqttDynamicService implements OnDestroy {
   public footfallEvent = new EventEmitter<any>();
   public emcEvent = new EventEmitter<any>();
 
+  public modeChangeEvent = new EventEmitter<any>();
+
+  public deviceChangeEvent = new EventEmitter<any>();
+  // public emcEvent = new EventEmitter<any>();
+
   connectServer() {
     this.disconnect();
 
@@ -64,15 +69,28 @@ export class MqttDynamicService implements OnDestroy {
         switch (data.deviceType) {
           case 'lamp':
             this.lightEvent.emit(data);
+            this.deviceChangeEvent.emit(data);
             break;
           case 'aircondition':
             this.airEvent.emit(data);
+            this.deviceChangeEvent.emit(data);
             break;
           case 'footfall':
             this.footfallEvent.emit(data);
+            // this.deviceChangeEvent.emit(data);
             break;
           case 'emc':
             this.emcEvent.emit(data);
+            // this.deviceChangeEvent.emit(data);
+            break;
+          case 'rgb-light':
+            this.emcEvent.emit(data);
+            // this.deviceChangeEvent.emit(data);
+            break;
+          case 'model-control':
+            // console.log('model-control', data);
+            // this.modeChangeEvent.emit(data);
+            this.deviceChangeEvent.emit(data);
             break;
         }
       }

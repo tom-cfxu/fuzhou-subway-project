@@ -134,7 +134,7 @@ export const API: API[] = [
   {
     api: 'deviceSendRGBLightMessage',
     comment: '三色灯控制接口',
-    url: `/app-api/iot/subway/device/send/rgb/light/message`,
+    url: `/app-api/iot/subway/device/send/rgbLight/message`,
     type: 'post',
     header: { 'Content-Type': 'application/json' }
   }

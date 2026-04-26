@@ -64,6 +64,7 @@ export class DataScreenComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   public suggestion = this.device.suggestion;
   private e1: any;
+  private e2: any;
 
   ngOnInit(): void {
     this.device.initDeviceTotal();
@@ -71,6 +72,9 @@ export class DataScreenComponent implements OnInit, OnDestroy {
     this.e1 = this.device.suggestionEvent.subscribe((s: string) => {
       this.suggestion = s;
       this.cdr.detectChanges();
+    });
+    this.e2 = this.mqtt.deviceChangeEvent.subscribe(() => {
+      this.device.initDeviceTotal();
     });
   }
   ngOnDestroy(): void {
